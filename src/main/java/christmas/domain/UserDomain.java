@@ -20,18 +20,29 @@ public class UserDomain {
         return totalOrderPrice.get();
     }
 
-    public static int dDaySale(int date){
+    public static int getDDaySale(int date){
         if(date<=CHRISTMAS_DATE){
             return D_DAY_BASIC_SALE+date*D_DAY_BONUS_SALE;
         }
         return NO_SALE;
     }
 
-    public static int weekDaySale(int date, Map<Menu,Integer> order){
+    public static int getWeekDaySale(int date, Map<Menu,Integer> order){
         if(!WEEKEND.contains(date)){
             AtomicInteger saleAmount = new AtomicInteger();
             order.keySet().stream()
                     .filter(key -> Objects.equals(key.type(), "디저트"))
+                    .forEach(key -> saleAmount.addAndGet(2023));
+            return saleAmount.get();
+        }
+        return NO_SALE;
+    }
+
+    public static int getWeekendSale(int date, Map<Menu,Integer> order){
+        if(WEEKEND.contains(date)){
+            AtomicInteger saleAmount = new AtomicInteger();
+            order.keySet().stream()
+                    .filter(key -> Objects.equals(key.type(), "메인"))
                     .forEach(key -> saleAmount.addAndGet(2023));
             return saleAmount.get();
         }
