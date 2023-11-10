@@ -17,6 +17,7 @@ public class UserDomain {
     private static final int D_DAY_BONUS_DISCOUNT = 100;
     private static final int YEAR_DISCOUNT = 2023;
     private static final int SPECIAL_DISCOUNT = 1000;
+    private static final int GIFT_EVENT_CONDITION_PRICE = 120000;
 
     public static int calculateTotalOrderPrice(Map<Menu, Integer> order) {
         AtomicInteger totalOrderPrice = new AtomicInteger();
@@ -54,11 +55,15 @@ public class UserDomain {
         return NO_DISCOUNT;
     }
 
-    public static int getSpecialSale(int date) {
+    public static int getSpecialDiscount(int date) {
         if (STAR_DATE.contains(date)) {
-            return 1000;
+            return SPECIAL_DISCOUNT;
         }
-        return 0;
+        return NO_DISCOUNT;
+    }
+
+    public static boolean isGiftEvent(int totalOrderPriceBefore) {
+        return totalOrderPriceBefore >= GIFT_EVENT_CONDITION_PRICE;
     }
 
 }
