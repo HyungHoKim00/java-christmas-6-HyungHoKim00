@@ -1,7 +1,9 @@
 package christmas.validator;
 
+import christmas.enums.Menu;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UserValidator {
@@ -17,9 +19,17 @@ public class UserValidator {
             throw new IllegalArgumentException(DATE_ERROR_MESSAGE);
         }
         int dateNumber = Integer.parseInt(date);
-        if (!inRange(dateNumber)) {
+        if (outOfDateRange(dateNumber)) {
             throw new IllegalArgumentException(DATE_ERROR_MESSAGE);
         }
+    }
+
+    private static boolean isNotPositiveInteger(String input) {
+        return !input.matches(POSITIVE_INTEGER);
+    }
+
+    private static boolean outOfDateRange(int dateNumber) {
+        return dateNumber < LOWEST || dateNumber > HIGHEST_DATE;
     }
 
     public static void validateMenuNameAndAmounts(List<String> menuNameAndAmounts) {
@@ -38,31 +48,40 @@ public class UserValidator {
         validateMenuAmounts(amounts);
     }
 
-    private static void validateMenuNames(List<String> names) {
-
-    }
-
-    private static void validateMenuAmounts(List<Integer> amounts) {
-
-    }
-
-    private static boolean isNotPositiveInteger(String input) {
-        return !input.matches(POSITIVE_INTEGER);
-    }
-
-    private static boolean inRange(int dateNumber) {
-        return dateNumber >= LOWEST && dateNumber <= HIGHEST_DATE;
-    }
-
     private static boolean invalidType(List<String> menuAndAmounts) {
-        AtomicBoolean invalidType = new AtomicBoolean(true);
+        AtomicBoolean invalidType = new AtomicBoolean(false);
         menuAndAmounts
                 .forEach(menuAndAmount -> {
                     String[] NameAmountPair = menuAndAmount.split("-");
                     if (NameAmountPair.length != 2 && isNotPositiveInteger(NameAmountPair[1])) {
-                        invalidType.set(false);
+                        invalidType.set(true);
                     }
                 });
         return invalidType.get();
     }
+
+    private static void validateMenuNames(List<String> names) {
+        if (nameNotExist(names)) {
+            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
+        }
+        if (duplicatedName(names)) {
+            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
+        }
+    }
+
+    private static boolean nameNotExist(List<String> names) {
+        AtomicBoolean nameNotExist = new AtomicBoolean(false);
+        names.forEach(name -> {
+            if (Objects.equals(Menu.determineByName(name).inKorean(), "")) {
+                nameNotExist.set(false);
+            }
+        });
+        return nameNotExist.get();
+    }
+
+    private static boolean duplicatedName(List<String> names) {
+        return names.size() != names.stream().distinct().count();
+    }
+
+    
 }
