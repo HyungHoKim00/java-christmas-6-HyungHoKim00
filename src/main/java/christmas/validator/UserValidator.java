@@ -83,5 +83,17 @@ public class UserValidator {
         return names.size() != names.stream().distinct().count();
     }
 
-    
+    private static void validateMenuAmounts(List<Integer> amounts) {
+        if (totalAmountOutOfRange(amounts)) {
+            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
+        }
+    }
+
+    private static boolean totalAmountOutOfRange(List<Integer> amounts) {
+        int sum = amounts.stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+        return sum > MAX_MENU_AMOUNT || sum < 0;
+    }
+
 }
