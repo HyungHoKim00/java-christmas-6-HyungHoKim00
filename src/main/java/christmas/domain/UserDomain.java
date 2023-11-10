@@ -27,6 +27,15 @@ public class UserDomain {
         return NO_SALE;
     }
 
-
+    public static int weekDaySale(int date, Map<Menu,Integer> order){
+        if(!WEEKEND.contains(date)){
+            AtomicInteger saleAmount = new AtomicInteger();
+            order.keySet().stream()
+                    .filter(key -> Objects.equals(key.type(), "디저트"))
+                    .forEach(key -> saleAmount.addAndGet(2023));
+            return saleAmount.get();
+        }
+        return NO_SALE;
+    }
 
 }
