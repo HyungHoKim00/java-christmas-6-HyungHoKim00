@@ -24,6 +24,13 @@ public class OutputView {
         System.out.println(price + "원");
     }
 
+    public void printGiftMenu(boolean giftEvent) {
+        System.out.println("<증정 메뉴>");
+        if (giftEvent) {
+            System.out.println("샴페인 1개");
+        }
+        System.out.println("없음");
+    }
 
     public void printDiscountDetails(Map<String, Integer> discountDetails) {
     }
