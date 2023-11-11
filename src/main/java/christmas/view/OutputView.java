@@ -19,7 +19,12 @@ public class OutputView {
                 });
     }
 
-    
+    public void printTotalPriceBefore(int price) {
+        System.out.println("<할인 전 총 주문 금액>");
+        System.out.println(price + "원");
+    }
+
+
     public void printDiscountDetails(Map<String, Integer> discountDetails) {
     }
 
