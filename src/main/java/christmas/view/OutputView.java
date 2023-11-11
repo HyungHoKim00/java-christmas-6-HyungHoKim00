@@ -52,6 +52,10 @@ public class OutputView {
         System.out.println("-" + discountDetails + "원");
     }
 
+    public void printEstimatedPrice(int estimatedPrice) {
+        System.out.println("<할인 후 예상 결제 금액>");
+        System.out.println(estimatedPrice + "원");
+    }
 
     public void printEventBadge(int totalDiscount) {
 
