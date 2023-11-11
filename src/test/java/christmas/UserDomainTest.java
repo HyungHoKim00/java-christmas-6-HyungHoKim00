@@ -27,8 +27,8 @@ public class UserDomainTest {
 
     @DisplayName("할인 전 총 주문 금액 계산")
     @Test
-    void calculateTotalOrderPriceBeforeSale() {
-        int result = userDomain.calculateTotalOrderPriceBeforeSale(VALID_ORDER);
+    void calculateTotalOrderPriceBefore() {
+        int result = userDomain.calculateTotalOrderPriceBefore(VALID_ORDER);
         int expected = Menu.T_BONE_STEAK.price()
                 + Menu.BBQ_RIBS.price()
                 + Menu.CHOCOLATE_CAKE.price() * 2

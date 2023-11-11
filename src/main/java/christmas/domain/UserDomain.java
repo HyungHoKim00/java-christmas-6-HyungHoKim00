@@ -20,7 +20,7 @@ public class UserDomain {
     private static final int CHRISTMAS_DATE = 25;
     private static final int GIFT_EVENT_CONDITION_PRICE = 120_000;
 
-    public int calculateTotalOrderPriceBeforeSale(Map<Menu, Integer> order) {
+    public int calculateTotalOrderPriceBefore(Map<Menu, Integer> order) {
         AtomicInteger totalOrderPrice = new AtomicInteger();
         order.keySet()
                 .forEach(key -> totalOrderPrice.addAndGet(key.price() * order.get(key)));

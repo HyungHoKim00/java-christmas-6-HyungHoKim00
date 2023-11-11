@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class UserValidator {
     private static final String DATE_ERROR_MESSAGE = "[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.";
     private static final String ORDER_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
-    private static final String POSITIVE_INTEGER = "^[1-9]\\d*$";
+    private static final String POSITIVE_INTEGER_PATTERN = "^[1-9]\\d*$";
     private static final int LOWEST = 1;
     private static final int HIGHEST_DATE = 31;
     private static final int MAX_MENU_AMOUNT = 20;
@@ -25,7 +25,7 @@ public class UserValidator {
     }
 
     private static boolean isNotPositiveInteger(String input) {
-        return !input.matches(POSITIVE_INTEGER);
+        return !input.matches(POSITIVE_INTEGER_PATTERN);
     }
 
     private static boolean outOfDateRange(int dateNumber) {
@@ -105,5 +105,4 @@ public class UserValidator {
                 .sum();
         return sum > MAX_MENU_AMOUNT || sum < 0;
     }
-
 }

@@ -17,7 +17,7 @@ public class User {
         this.userDomain = new UserDomain();
         this.date = date;
         this.order = order;
-        this.totalOrderPriceBefore = userDomain.calculateTotalOrderPriceBeforeSale(order);
+        this.totalOrderPriceBefore = userDomain.calculateTotalOrderPriceBefore(order);
     }
 
     public int getTotalOrderPriceBefore() {
