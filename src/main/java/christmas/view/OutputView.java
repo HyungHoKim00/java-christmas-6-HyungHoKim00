@@ -29,19 +29,35 @@ public class OutputView {
         if (giftEvent) {
             System.out.println("샴페인 1개");
         }
-        System.out.println("없음");
+        if (!giftEvent) {
+            printNotExist();
+        }
     }
 
     public void printDiscountDetails(Map<String, Integer> discountDetails) {
+        if (!discountDetails.isEmpty()) {
+            discountDetails.keySet()
+                    .forEach(discountName -> {
+                        String discountAmount = discountDetails.get(discountName).toString();
+                        System.out.println(discountName + ": -" + discountAmount + "원");
+                    });
+        }
+        if (discountDetails.isEmpty()) {
+            printNotExist();
+        }
     }
 
     public void printTotalDiscount(int discountDetails) {
+        System.out.println("<총 혜택 금액>");
+        System.out.println("-" + discountDetails + "원");
     }
 
-    public void printEstimatedPrice(int i, int totalDiscount) {
-
-    }
 
     public void printEventBadge(int totalDiscount) {
+
+    }
+
+    private void printNotExist() {
+        System.out.println("없음");
     }
 }
