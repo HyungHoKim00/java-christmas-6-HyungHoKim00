@@ -3,6 +3,7 @@ package christmas.view;
 import camp.nextstep.edu.missionutils.Console;
 import christmas.enums.Menu;
 import christmas.validator.UserValidator;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +21,15 @@ public class InputView {
     }
 
     private String inputDate() {
-        String input = Console.readLine();
-        try {
-            UserValidator.validateDate(input);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            readDate();
+        String input;
+        while (true) {
+            input = Console.readLine();
+            try {
+                UserValidator.validateDate(input);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return input;
     }
@@ -35,11 +39,11 @@ public class InputView {
         List<String> menuNameAndAmounts = inputMenuNameAndAmounts();
         Map<Menu, Integer> order = new EnumMap<>(Menu.class);
         menuNameAndAmounts
-                .forEach(menuAndAmount -> {
-                    String[] keyAndValue = menuAndAmount.split("-");
-                    Menu key = Menu.determineByName(keyAndValue[0]);
-                    int value = Integer.parseInt(keyAndValue[1]);
-                    order.put(key, value);
+                .forEach(menuNameAndAmount -> {
+                    String[] menuAndAmount = menuNameAndAmount.split("-");
+                    Menu menu = Menu.determineByName(menuAndAmount[0]);
+                    int amount = Integer.parseInt(menuAndAmount[1]);
+                    order.put(menu, amount);
                 });
         return order;
     }
@@ -49,13 +53,16 @@ public class InputView {
     }
 
     private List<String> inputMenuNameAndAmounts() {
-        String input = Console.readLine();
-        List<String> menuNameAndAmounts = List.of(input.split(","));
-        try {
-            UserValidator.validateMenuNameAndAmounts(menuNameAndAmounts);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            inputMenuNameAndAmounts();
+        List<String> menuNameAndAmounts;
+        while (true) {
+            String input = Console.readLine();
+            menuNameAndAmounts = new ArrayList<>(List.of(input.split(",")));
+            try {
+                UserValidator.validateMenuNameAndAmounts(menuNameAndAmounts);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return menuNameAndAmounts;
     }

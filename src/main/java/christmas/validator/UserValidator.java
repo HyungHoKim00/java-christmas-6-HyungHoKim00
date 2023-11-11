@@ -53,7 +53,7 @@ public class UserValidator {
         menuAndAmounts
                 .forEach(menuAndAmount -> {
                     String[] NameAmountPair = menuAndAmount.split("-");
-                    if (NameAmountPair.length != 2 && isNotPositiveInteger(NameAmountPair[1])) {
+                    if (NameAmountPair.length != 2 || isNotPositiveInteger(NameAmountPair[1])) {
                         invalidType.set(true);
                     }
                 });
@@ -76,7 +76,7 @@ public class UserValidator {
         AtomicBoolean nameNotExist = new AtomicBoolean(false);
         names.forEach(name -> {
             if (Objects.equals(Menu.determineByName(name).inKorean(), "")) {
-                nameNotExist.set(false);
+                nameNotExist.set(true);
             }
         });
         return nameNotExist.get();
@@ -88,7 +88,7 @@ public class UserValidator {
 
     private static boolean onlyDrinks(List<String> names) {
         long numberOfDrinks = names.stream()
-                .filter(name -> Objects.equals(Menu.determineByName(name).inKorean(), "음료"))
+                .filter(name -> Objects.equals(Menu.determineByName(name).type(), "음료"))
                 .count();
         return names.size() == numberOfDrinks;
     }

@@ -5,7 +5,6 @@ import christmas.enums.Menu;
 import christmas.model.User;
 import christmas.view.InputView;
 import christmas.view.OutputView;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,8 +21,9 @@ public class EventPlanner {
 
     public void run() {
         int date = inputview.readDate();
-        Map<Menu, Integer> order = new EnumMap<>(Menu.class);
+        Map<Menu, Integer> order = inputview.readOrder();
         user = new User(date, order);
+        outputView.printTotal(date);
         outputView.printMenu(order);
         int totalOrderPriceBefore = user.getTotalOrderPriceBefore();
         outputView.printTotalPriceBefore(totalOrderPriceBefore);

@@ -38,7 +38,7 @@ public class UserDomain {
             AtomicInteger discountAmount = new AtomicInteger();
             order.keySet().stream()
                     .filter(key -> Objects.equals(key.type(), WEEKDAY_DISCOUNT_TYPE))
-                    .forEach(key -> discountAmount.addAndGet(YEAR_DISCOUNT));
+                    .forEach(key -> discountAmount.addAndGet(YEAR_DISCOUNT * order.get(key)));
             return discountAmount.get();
         }
         return NO_DISCOUNT;
@@ -49,7 +49,7 @@ public class UserDomain {
             AtomicInteger discountAmount = new AtomicInteger();
             order.keySet().stream()
                     .filter(key -> Objects.equals(key.type(), WEEKEND_DISCOUNT_TYPE))
-                    .forEach(key -> discountAmount.addAndGet(SPECIAL_DISCOUNT));
+                    .forEach(key -> discountAmount.addAndGet(SPECIAL_DISCOUNT * order.get(key)));
             return discountAmount.get();
         }
         return NO_DISCOUNT;
