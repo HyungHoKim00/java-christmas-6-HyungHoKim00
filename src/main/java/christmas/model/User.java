@@ -1,5 +1,6 @@
 package christmas.model;
 
+import static christmas.enums.Discount.NONE;
 import static christmas.enums.Menu.CHAMPAGNE;
 
 import christmas.domain.UserDomain;
@@ -7,7 +8,6 @@ import christmas.enums.Menu;
 import java.util.Map;
 
 public class User {
-    private static final int NO_DISCOUNT = 0;
     private final UserDomain userDomain;
     private final Map<Menu, Integer> order;
     private final int date;
@@ -17,15 +17,7 @@ public class User {
         this.userDomain = new UserDomain();
         this.date = date;
         this.order = order;
-        this.totalOrderPriceBefore = userDomain.calculateTotalOrderPriceBefore(order);
-    }
-
-    public Map<Menu, Integer> getOrder() {
-        return order;
-    }
-
-    public int getDate() {
-        return date;
+        this.totalOrderPriceBefore = userDomain.calculateTotalOrderPriceBeforeSale(order);
     }
 
     public int getTotalOrderPriceBefore() {
@@ -36,7 +28,7 @@ public class User {
         if (isGiftEvent()) {
             return CHAMPAGNE.price();
         }
-        return NO_DISCOUNT;
+        return NONE.discount();
     }
 
     public boolean isGiftEvent() {
