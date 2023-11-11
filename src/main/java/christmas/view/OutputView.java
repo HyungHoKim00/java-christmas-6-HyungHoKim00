@@ -57,8 +57,14 @@ public class OutputView {
         System.out.println(estimatedPrice + "원");
     }
 
-    public void printEventBadge(int totalDiscount) {
-
+    public void printEventBadge(String badge) {
+        System.out.println("<12월 이벤트 배지>");
+        if (!badge.isEmpty()) {
+            System.out.println(badge);
+        }
+        if (badge.isEmpty()) {
+            printNotExist();
+        }
     }
 
     private void printNotExist() {
