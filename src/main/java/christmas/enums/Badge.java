@@ -24,11 +24,10 @@ public enum Badge {
         return leastCondition;
     }
 
-    public String determineBadge(int totalDiscountPrice) {
+    public static Badge determineBadge(int totalDiscountPrice) {
         return Arrays.stream(values())
                 .filter(badge -> totalDiscountPrice >= badge.leastCondition())
                 .findFirst()
-                .orElse(INVALID_BADGE)
-                .inKorean();
+                .orElse(INVALID_BADGE);
     }
 }

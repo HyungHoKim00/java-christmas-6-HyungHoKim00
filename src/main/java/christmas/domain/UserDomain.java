@@ -13,27 +13,27 @@ public class UserDomain {
     private static final String WEEKEND_DISCOUNT_TYPE = "메인";
     private static final int CHRISTMAS_DATE = 25;
     private static final int NO_DISCOUNT = 0;
-    private static final int D_DAY_BASIC_DISCOUNT = 900;
+    private static final int D_DAY_BASIC_DISCOUNT = 1_000;
     private static final int D_DAY_BONUS_DISCOUNT = 100;
-    private static final int YEAR_DISCOUNT = 2023;
-    private static final int SPECIAL_DISCOUNT = 1000;
-    private static final int GIFT_EVENT_CONDITION_PRICE = 120000;
+    private static final int YEAR_DISCOUNT = 2_023;
+    private static final int SPECIAL_DISCOUNT = 1_000;
+    private static final int GIFT_EVENT_CONDITION_PRICE = 120_000;
 
-    public static int calculateTotalOrderPrice(Map<Menu, Integer> order) {
+    public int calculateTotalOrderPriceBefore(Map<Menu, Integer> order) {
         AtomicInteger totalOrderPrice = new AtomicInteger();
         order.keySet()
                 .forEach(key -> totalOrderPrice.addAndGet(key.price() * order.get(key)));
         return totalOrderPrice.get();
     }
 
-    public static int getDDayDiscount(int date) {
+    public int calculateDDayDiscount(int date) {
         if (date <= CHRISTMAS_DATE) {
-            return D_DAY_BASIC_DISCOUNT + date * D_DAY_BONUS_DISCOUNT;
+            return D_DAY_BASIC_DISCOUNT + (date - 1) * D_DAY_BONUS_DISCOUNT;
         }
         return NO_DISCOUNT;
     }
 
-    public static int getWeekdayDiscount(int date, Map<Menu, Integer> order) {
+    public int calculateWeekdayDiscount(int date, Map<Menu, Integer> order) {
         if (!WEEKEND.contains(date)) {
             AtomicInteger discountAmount = new AtomicInteger();
             order.keySet().stream()
@@ -44,7 +44,7 @@ public class UserDomain {
         return NO_DISCOUNT;
     }
 
-    public static int getWeekendDiscount(int date, Map<Menu, Integer> order) {
+    public int calculateWeekendDiscount(int date, Map<Menu, Integer> order) {
         if (WEEKEND.contains(date)) {
             AtomicInteger discountAmount = new AtomicInteger();
             order.keySet().stream()
@@ -55,15 +55,14 @@ public class UserDomain {
         return NO_DISCOUNT;
     }
 
-    public static int getSpecialDiscount(int date) {
+    public int calculateSpecialDiscount(int date) {
         if (STAR_DATE.contains(date)) {
             return SPECIAL_DISCOUNT;
         }
         return NO_DISCOUNT;
     }
 
-    public static boolean isGiftEvent(int totalOrderPriceBefore) {
+    public boolean distinctGiftEvent(int totalOrderPriceBefore) {
         return totalOrderPriceBefore >= GIFT_EVENT_CONDITION_PRICE;
     }
-
 }
