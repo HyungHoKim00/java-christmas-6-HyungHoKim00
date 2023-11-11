@@ -67,6 +67,9 @@ public class UserValidator {
         if (duplicatedName(names)) {
             throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
         }
+        if (onlyDrinks(names)) {
+            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
+        }
     }
 
     private static boolean nameNotExist(List<String> names) {
@@ -81,6 +84,13 @@ public class UserValidator {
 
     private static boolean duplicatedName(List<String> names) {
         return names.size() != names.stream().distinct().count();
+    }
+
+    private static boolean onlyDrinks(List<String> names) {
+        long numberOfDrinks = names.stream()
+                .filter(name -> Objects.equals(Menu.determineByName(name).inKorean(), "음료"))
+                .count();
+        return names.size() == numberOfDrinks;
     }
 
     private static void validateMenuAmounts(List<Integer> amounts) {
