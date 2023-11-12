@@ -34,32 +34,6 @@ public class EventPlanner {
         printBenefit(totalOrderPriceBefore);
     }
 
-    private Date validateDate() {
-        outputView.printDateRequestMessage();
-        int date;
-        while (true) {
-            try {
-                date = inputview.readDate();
-                return new Date(date);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    private Order validateOrder() {
-        outputView.printOrderRequestMessage();
-        Map<Menu, Integer> order;
-        while (true) {
-            try {
-                order = inputview.readOrder();
-                return new Order(order);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
     private void printBenefit(int totalOrderPriceBefore) {
         outputView.printGiftMenu(isGiftEvent(totalOrderPriceBefore));
         Map<String, Integer> discountDetails = getDiscountDetails(date, order, totalOrderPriceBefore);
@@ -71,7 +45,7 @@ public class EventPlanner {
         outputView.printEventBadge(badge);
     }
 
-    private boolean isGiftEvent(int totalOrderPriceBefore) {
+    public boolean isGiftEvent(int totalOrderPriceBefore) {
         return totalOrderPriceBefore >= GIFT_EVENT_CONDITION_PRICE;
     }
 
@@ -126,5 +100,31 @@ public class EventPlanner {
 
     public String getBadgeName(int totalDiscount) {
         return Badge.determineBadge(totalDiscount).inKorean();
+    }
+
+    private Date validateDate() {
+        outputView.printDateRequestMessage();
+        int date;
+        while (true) {
+            try {
+                date = inputview.readDate();
+                return new Date(date);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private Order validateOrder() {
+        outputView.printOrderRequestMessage();
+        Map<Menu, Integer> order;
+        while (true) {
+            try {
+                order = inputview.readOrder();
+                return new Order(order);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

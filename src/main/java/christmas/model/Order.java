@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Order {
     private static final String ORDER_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
-    private static final int DEFAULT_AMOUNT = 0;
+    private static final int LEAST_MENU_AMOUNT = 1;
     private static final int MAX_MENU_AMOUNT = 20;
     private static final String WEEKDAY_DISCOUNT_TYPE = DESSERT.type();
     private static final String WEEKEND_DISCOUNT_TYPE = MAIN.type();
@@ -42,15 +42,15 @@ public class Order {
         return orderDetail;
     }
 
-    public int getDDayDiscount(int date) {
-        return D_DAY_BASIC.discount() + (date - 1) * D_DAY_BONUS.discount();
-    }
-
     public int calculateTotalOrderPriceBefore() {
         AtomicInteger totalOrderPrice = new AtomicInteger();
         order.keySet()
                 .forEach(key -> totalOrderPrice.addAndGet(key.price() * order.get(key)));
         return totalOrderPrice.get();
+    }
+
+    public int getDDayDiscount(int date) {
+        return D_DAY_BASIC.discount() + (date - 1) * D_DAY_BONUS.discount();
     }
 
     public int getWeekdayDiscount() {
@@ -93,9 +93,6 @@ public class Order {
         if (nameNotExist(names)) {
             throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
         }
-        if (duplicatedName(names)) {
-            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
-        }
         if (onlyDrinks(names)) {
             throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
         }
@@ -111,10 +108,6 @@ public class Order {
         return nameNotExist.get();
     }
 
-    private static boolean duplicatedName(List<String> names) {
-        return names.size() != names.stream().distinct().count();
-    }
-
     private static boolean onlyDrinks(List<String> names) {
         long numberOfDrinks = names.stream()
                 .filter(name -> Objects.equals(Menu.determineByName(name).type(), DRINK_TYPE))
@@ -123,15 +116,26 @@ public class Order {
     }
 
     private static void validateMenuAmounts(List<Integer> amounts) {
+        if (amountNotPositive(amounts)) {
+            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
+        }
         if (totalAmountOutOfRange(amounts)) {
             throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
         }
+    }
+
+    private static boolean amountNotPositive(List<Integer> amounts) {
+        AtomicBoolean isNotPositive = new AtomicBoolean(false);
+        amounts.forEach(amount -> {
+            isNotPositive.set(amount < LEAST_MENU_AMOUNT);
+        });
+        return isNotPositive.get();
     }
 
     private static boolean totalAmountOutOfRange(List<Integer> amounts) {
         int sum = amounts.stream()
                 .mapToInt(Integer::intValue)
                 .sum();
-        return sum > MAX_MENU_AMOUNT || sum < DEFAULT_AMOUNT;
+        return sum > MAX_MENU_AMOUNT || sum < LEAST_MENU_AMOUNT;
     }
 }

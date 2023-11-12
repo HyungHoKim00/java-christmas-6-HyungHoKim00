@@ -1,5 +1,6 @@
 package christmas.validator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -24,17 +25,28 @@ public class InputValidator {
         if (invalidType(menuNameAndAmounts)) {
             throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
         }
+        if (duplicatedName(menuNameAndAmounts)) {
+            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
+        }
     }
 
-    private static boolean invalidType(List<String> menuAndAmounts) {
+    private static boolean invalidType(List<String> menuNameAndAmounts) {
         AtomicBoolean invalidType = new AtomicBoolean(false);
-        menuAndAmounts
-                .forEach(menuAndAmount -> {
-                    String[] NameAmountPair = menuAndAmount.split("-");
+        menuNameAndAmounts
+                .forEach(menuNameAndAmount -> {
+                    String[] NameAmountPair = menuNameAndAmount.split("-");
                     if (NameAmountPair.length != 2 || isNotPositiveInteger(NameAmountPair[1])) {
                         invalidType.set(true);
                     }
                 });
         return invalidType.get();
+    }
+
+    private static boolean duplicatedName(List<String> menuNameAndAmounts) {
+        List<String> names = new ArrayList<>();
+        menuNameAndAmounts
+                .forEach(menuNameAndAmount -> names.add(menuNameAndAmount.split("-")[0]));
+
+        return names.size() != names.stream().distinct().count();
     }
 }
