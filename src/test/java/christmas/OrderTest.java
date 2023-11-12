@@ -3,32 +3,37 @@ package christmas;
 import static christmas.enums.Discount.D_DAY_BASIC;
 import static christmas.enums.Discount.SPECIAL;
 import static christmas.enums.Discount.WEEKDAY_AND_WEEKEND;
+import static christmas.enums.Menu.INVALID_MENU;
+import static christmas.enums.Menu.TAPAS;
+import static christmas.enums.Menu.T_BONE_STEAK;
+import static christmas.enums.Menu.ZERO_COKE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import christmas.domain.UserDomain;
 import christmas.enums.Menu;
+import christmas.model.Order;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-public class UserDomainTest {
-    private static final Map<Menu, Integer> VALID_ORDER = new EnumMap<>(Map.of(
+public class OrderTest {
+    private static final Order VALID_ORDER = new Order(new EnumMap<>(Map.of(
             Menu.T_BONE_STEAK, 1,
             Menu.BBQ_RIBS, 1,
             Menu.CHOCOLATE_CAKE, 2,
             Menu.ZERO_COKE, 1
-    ));
-    private static final int WEEKEND = 2;
-    private static final int WEEKDAY = 4;
-    private static final int SPECIAL_DAY = 3;
+    )));
     private static final int FIRST_DAY = 1;
-    private final UserDomain userDomain = new UserDomain();
 
     @DisplayName("할인 전 총 주문 금액 계산")
     @Test
     void calculateTotalOrderPriceBefore() {
-        int result = userDomain.calculateTotalOrderPriceBefore(VALID_ORDER);
+        int result = VALID_ORDER.calculateTotalOrderPriceBefore();
         int expected = Menu.T_BONE_STEAK.price()
                 + Menu.BBQ_RIBS.price()
                 + Menu.CHOCOLATE_CAKE.price() * 2
@@ -40,7 +45,7 @@ public class UserDomainTest {
     @DisplayName("크리스마스 디데이 할인 계산")
     @Test
     void calculateDDayDiscount() {
-        int result = userDomain.calculateDDayDiscount(FIRST_DAY);
+        int result = VALID_ORDER.getDDayDiscount(FIRST_DAY);
         int expected = D_DAY_BASIC.discount();
 
         assertThat(result).isEqualTo(expected);
@@ -49,7 +54,7 @@ public class UserDomainTest {
     @DisplayName("평일 할인 계산")
     @Test
     void calculateWeekdayDiscount() {
-        int result = userDomain.calculateWeekdayDiscount(WEEKDAY, VALID_ORDER);
+        int result = VALID_ORDER.getWeekdayDiscount();
         int expected = WEEKDAY_AND_WEEKEND.discount() * 2;
 
         assertThat(result).isEqualTo(expected);
@@ -58,7 +63,7 @@ public class UserDomainTest {
     @DisplayName("주말 할인 계산")
     @Test
     void calculateWeekendDiscount() {
-        int result = userDomain.calculateWeekendDiscount(WEEKEND, VALID_ORDER);
+        int result = VALID_ORDER.getWeekendDiscount();
         int expected = WEEKDAY_AND_WEEKEND.discount() * 2;
 
         assertThat(result).isEqualTo(expected);
@@ -67,23 +72,26 @@ public class UserDomainTest {
     @DisplayName("특별 할인 계산")
     @Test
     void calculateSpecialDiscount() {
-        int result = userDomain.calculateSpecialDiscount(SPECIAL_DAY);
+        int result = VALID_ORDER.getSpecialDiscount();
         int expected = SPECIAL.discount();
 
         assertThat(result).isEqualTo(expected);
     }
 
-    @DisplayName("증정 이벤트 당첨 여부 선정")
-    @Test
-    void distinctGiftEvent() {
-        boolean result = userDomain.distinctGiftEvent(
-                Menu.T_BONE_STEAK.price()
-                        + Menu.BBQ_RIBS.price()
-                        + Menu.CHOCOLATE_CAKE.price() * 2
-                        + Menu.ZERO_COKE.price());
-        boolean expected = true;
-
-        assertThat(result).isEqualTo(expected);
+    @DisplayName("주문 판별")
+    @ParameterizedTest(name = "{1}")
+    @MethodSource("invalidOrder")
+    void invalidOrderThrowsException(Map<Menu, Integer> invalidOrder, String reason) {
+        assertThatThrownBy(() -> new Order(invalidOrder))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
+    static Stream<Arguments> invalidOrder() {
+        return Stream.of(
+                Arguments.of(new EnumMap<>(Map.of(INVALID_MENU, 3)), "메뉴판에 없는 메뉴 입력"),
+                Arguments.of(new EnumMap<>(Map.of(ZERO_COKE, 2)), "음료만 주문"),
+                Arguments.of(new EnumMap<>(Map.of(TAPAS, 0)), "개수가 양의 정수가 아님"),
+                Arguments.of(new EnumMap<>(Map.of(T_BONE_STEAK, 10, TAPAS, 11)), "총 개수가 범위 밖")
+        );
+    }
 }
