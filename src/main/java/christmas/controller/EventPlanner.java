@@ -29,15 +29,19 @@ public class EventPlanner {
     public void run() {
         this.date = validateDate();
         this.order = validateOrder();
-        outputView.printTotal(date.toString());
-        outputView.printOrderDetail(order.generateDetail());
         int totalOrderPriceBefore = order.calculateTotalPriceBefore();
-        outputView.printTotalPriceBefore(totalOrderPriceBefore);
+        this.discount = new Discount(date, order, totalOrderPriceBefore);
+        printInput(totalOrderPriceBefore);
         printBenefit(totalOrderPriceBefore);
     }
 
+    private void printInput(int totalOrderPriceBefore) {
+        outputView.printTitle(date.toString());
+        outputView.printOrderDetail(order.generateDetail());
+        outputView.printTotalOrderPriceBefore(totalOrderPriceBefore);
+    }
+
     private void printBenefit(int totalOrderPriceBefore) {
-        this.discount = new Discount(date, order, totalOrderPriceBefore);
         int totalDiscount = discount.calculateTotal();
         boolean isGiftEvent = discount.isGiftEvent();
         boolean discountExists = discount.exists();

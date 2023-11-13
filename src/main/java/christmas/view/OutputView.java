@@ -15,7 +15,7 @@ public class OutputView {
         System.out.println("주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)");
     }
 
-    public void printTotal(String date) {
+    public void printTitle(String date) {
         System.out.printf("%s에 우테코 식당에서 받을 혜택 미리 보기!" + "%n", date);
         System.out.println();
     }
@@ -26,7 +26,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printTotalPriceBefore(int price) {
+    public void printTotalOrderPriceBefore(int price) {
         System.out.println("<할인 전 총주문 금액>");
         System.out.println(MONEY.format(price) + "원");
         System.out.println();
