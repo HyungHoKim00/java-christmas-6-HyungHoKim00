@@ -3,17 +3,21 @@ package christmas.validator;
 import static christmas.enums.ErrorMessage.DATE_ERROR;
 import static christmas.enums.ErrorMessage.ORDER_ERROR;
 
+import christmas.enums.Menu;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InputValidator {
     private static final String POSITIVE_INTEGER_PATTERN = "^[1-9]\\d*$";
 
-    public static void validateDate(String date) {
+    public static int validateDate(String date) {
         if (isNotPositiveInteger(date)) {
             throw new IllegalArgumentException(DATE_ERROR.getMessage());
         }
+        return Integer.parseInt(date);
     }
 
     private static boolean isNotPositiveInteger(String input) {
@@ -21,10 +25,11 @@ public class InputValidator {
     }
 
 
-    public static void validateOrderSentence(String input) {
+    public static List<String> validateOrderSentence(String input) {
         if (commaDoubledOrInEdge(input)) {
             throw new IllegalArgumentException(ORDER_ERROR.getMessage());
         }
+        return List.of(input.split(","));
     }
 
     private static boolean commaDoubledOrInEdge(String input) {
@@ -32,13 +37,22 @@ public class InputValidator {
     }
 
 
-    public static void validateMenuNameAndAmounts(List<String> menuNameAndAmounts) {
+    public static Map<Menu, Integer> validateMenuNameAndAmounts(List<String> menuNameAndAmounts) {
         if (invalidType(menuNameAndAmounts)) {
             throw new IllegalArgumentException(ORDER_ERROR.getMessage());
         }
         if (duplicatedName(menuNameAndAmounts)) {
             throw new IllegalArgumentException(ORDER_ERROR.getMessage());
         }
+        Map<Menu, Integer> order = new EnumMap<>(Menu.class);
+        menuNameAndAmounts
+                .forEach(menuNameAndAmount -> {
+                    String[] menuAndAmount = menuNameAndAmount.split("-");
+                    Menu menu = Menu.determineByName(menuAndAmount[0]);
+                    int amount = Integer.parseInt(menuAndAmount[1]);
+                    order.put(menu, amount);
+                });
+        return order;
     }
 
     private static boolean invalidType(List<String> menuNameAndAmounts) {

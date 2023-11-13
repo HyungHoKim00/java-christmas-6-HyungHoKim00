@@ -14,8 +14,7 @@ public class Date {
     private final int date;
 
     public Date(int date) {
-        validate(date);
-        this.date = date;
+        this.date = validate(date);
     }
 
     public String toString() {
@@ -43,13 +42,14 @@ public class Date {
     }
 
 
-    private void validate(int date) {
-        if (outOfDateRange(date)) {
+    private int validate(int date) {
+        if (outOfRange(date)) {
             throw new IllegalArgumentException(DATE_ERROR.getMessage());
         }
+        return date;
     }
 
-    private static boolean outOfDateRange(int date) {
+    private static boolean outOfRange(int date) {
         return date < LOWEST || date > HIGHEST;
     }
 }

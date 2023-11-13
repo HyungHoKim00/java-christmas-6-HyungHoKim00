@@ -17,8 +17,7 @@ public class Order {
     private final Map<Menu, Integer> order;
 
     public Order(Map<Menu, Integer> order) {
-        validate(order);
-        this.order = order;
+        this.order = validate(order);
     }
 
     public Map<String, Integer> generateDetail() {
@@ -45,7 +44,7 @@ public class Order {
                 .sum();
     }
 
-    private void validate(Map<Menu, Integer> order) {
+    private Map<Menu, Integer> validate(Map<Menu, Integer> order) {
         List<Menu> menus = new ArrayList<>();
         List<Integer> amounts = new ArrayList<>();
         order.keySet().forEach(menu -> {
@@ -53,7 +52,8 @@ public class Order {
             amounts.add(order.get(menu));
         });
         validateMenu(menus);
-        validateMenuAmounts(amounts);
+        validateAmount(amounts);
+        return order;
     }
 
     private static void validateMenu(List<Menu> menus) {
@@ -82,7 +82,7 @@ public class Order {
         return menus.size() == numberOfDrinks;
     }
 
-    private static void validateMenuAmounts(List<Integer> amounts) {
+    private static void validateAmount(List<Integer> amounts) {
         if (totalAmountOutOfRange(amounts)) {
             throw new IllegalArgumentException(ORDER_ERROR.getMessage());
         }

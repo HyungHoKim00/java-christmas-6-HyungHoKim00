@@ -45,11 +45,11 @@ public class EventPlanner {
         printBenefitDetail(discountExists);
         printTotalDiscount(discountExists, totalDiscount);
         printEstimatedPrice(isGiftEvent, totalOrderPriceBefore, totalDiscount);
-        printBadgeName(discountExists, totalDiscount);
+        printBadgeName(totalDiscount);
     }
 
 
-    public void printGiftEvent(boolean isGiftEvent) {
+    private void printGiftEvent(boolean isGiftEvent) {
         outputView.printGiftEventTitle();
         if (isGiftEvent) {
             outputView.printGiftEvent(GIFT_NAME, GIFT_AMOUNT);
@@ -88,14 +88,9 @@ public class EventPlanner {
         }
     }
 
-    private void printBadgeName(boolean discountExists, int totalDiscount) {
+    private void printBadgeName(int totalDiscount) {
         outputView.printEventBadgeTitle();
-        if (discountExists) {
-            outputView.printEventBadge(getBadgeName(totalDiscount));
-        }
-        if (!discountExists) {
-            outputView.printNotExist();
-        }
+        outputView.printEventBadge(getBadgeName(totalDiscount));
     }
 
     public String getBadgeName(int totalDiscount) {
