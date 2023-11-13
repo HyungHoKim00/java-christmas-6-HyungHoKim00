@@ -23,18 +23,18 @@ public class DiscountTest {
             Menu.CHOCOLATE_CAKE, 2,
             Menu.ZERO_COKE, 1
     )));
-    private static final int VALID_TOTAL_ORDER_PRICE_BEFORE
+    private static final int VALID_TOTAL_ORDER_PRICE
             = Menu.T_BONE_STEAK.getPrice()
             + Menu.BBQ_RIBS.getPrice()
             + Menu.CHOCOLATE_CAKE.getPrice() * 2
             + Menu.ZERO_COKE.getPrice();
     private static final Discount VALID_DISCOUNT
-            = new Discount(VALID_DATE, VALID_ORDER, VALID_TOTAL_ORDER_PRICE_BEFORE);
+            = new Discount(VALID_DATE, VALID_ORDER, VALID_TOTAL_ORDER_PRICE);
 
     @DisplayName("증정 이벤트 당첨 여부 선정")
     @Test
-    void distinctGiftEvent() {
-        boolean result = VALID_DISCOUNT.isGiftEvent();
+    void wonGiftEvent() {
+        boolean result = VALID_DISCOUNT.contains(GIFT_EVENT);
         boolean expected = true;
 
         assertThat(result).isEqualTo(expected);
@@ -42,7 +42,7 @@ public class DiscountTest {
 
     @DisplayName("할인 상세 내역 선정")
     @Test
-    void getDiscountDetail() {
+    void generateDiscountDetail() {
         Map<String, Integer> result = VALID_DISCOUNT.generateDetail();
         Map<String, Integer> expected = Map.of(
                 D_DAY_EVENT.getName(), D_DAY_EVENT.getDiscount() * VALID_DATE.calculateDDayMultiplicand(),

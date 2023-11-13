@@ -26,9 +26,9 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printTotalOrderPriceBefore(int price) {
+    public void printTotalOrderPrice(int totalOrderPrice) {
         System.out.println("<할인 전 총주문 금액>");
-        System.out.println(MONEY.format(price) + "원");
+        System.out.println(MONEY.format(totalOrderPrice) + "원");
         System.out.println();
     }
 

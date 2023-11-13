@@ -30,7 +30,7 @@ public class Order {
         return orderDetail;
     }
 
-    public int calculateTotalPriceBefore() {
+    public int calculateTotalPrice() {
         return order.keySet().stream()
                 .mapToInt(menu -> menu.getPrice() * order.get(menu))
                 .sum();

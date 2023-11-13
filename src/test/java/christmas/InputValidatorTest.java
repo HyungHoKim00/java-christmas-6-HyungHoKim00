@@ -17,7 +17,7 @@ public class InputValidatorTest {
 
     @DisplayName("주문 문장 판별")
     @Test
-    void invalidOrderSentence() {
+    void invalidOrderSentenceThrowsException() {
         assertThatThrownBy(() -> InputValidator
                 .validateOrderSentence("티본스테이크-2,"))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -33,7 +33,7 @@ public class InputValidatorTest {
 
     @DisplayName("주문 이름 중복 판별")
     @Test
-    void duplicatedMenuName() {
+    void duplicatedMenuNameThrowsException() {
         assertThatThrownBy(() -> InputValidator
                 .validateMenuNameAndAmounts(List.of("타파스-2", "타파스-3")))
                 .isInstanceOf(IllegalArgumentException.class);

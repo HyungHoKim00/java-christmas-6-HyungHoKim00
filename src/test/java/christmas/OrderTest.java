@@ -29,8 +29,8 @@ public class OrderTest {
 
     @DisplayName("할인 전 총 주문 금액 계산")
     @Test
-    void calculateTotalOrderPriceBefore() {
-        int result = VALID_ORDER.calculateTotalPriceBefore();
+    void calculateTotalOrderPrice() {
+        int result = VALID_ORDER.calculateTotalPrice();
         int expected = Menu.T_BONE_STEAK.getPrice()
                 + Menu.BBQ_RIBS.getPrice()
                 + Menu.CHOCOLATE_CAKE.getPrice() * 2
@@ -41,7 +41,7 @@ public class OrderTest {
 
     @DisplayName("어떤 종류의 메뉴 개수 계산")
     @Test
-    void calculateWeekdayDiscount() {
+    void calculateAmountOfMain() {
         int result = VALID_ORDER.generateAmountTypeOf(MAIN);
         int expected = 2;
 

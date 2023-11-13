@@ -29,26 +29,26 @@ public class EventPlanner {
     public void run() {
         this.date = validateDate();
         this.order = validateOrder();
-        int totalOrderPriceBefore = order.calculateTotalPriceBefore();
-        this.discount = new Discount(date, order, totalOrderPriceBefore);
-        printInput(totalOrderPriceBefore);
-        printBenefit(totalOrderPriceBefore);
+        int totalOrderPrice = order.calculateTotalPrice();
+        this.discount = new Discount(date, order, totalOrderPrice);
+        printInput(totalOrderPrice);
+        printBenefit(totalOrderPrice);
     }
 
-    private void printInput(int totalOrderPriceBefore) {
+    private void printInput(int totalOrderPrice) {
         outputView.printTitle(date.toString());
         outputView.printOrderDetail(order.generateDetail());
-        outputView.printTotalOrderPriceBefore(totalOrderPriceBefore);
+        outputView.printTotalOrderPrice(totalOrderPrice);
     }
 
-    private void printBenefit(int totalOrderPriceBefore) {
+    private void printBenefit(int totalOrderPrice) {
         int totalDiscount = discount.calculateTotal();
-        boolean isGiftEvent = discount.isGiftEvent();
+        boolean wonGiftEvent = discount.contains(GIFT_EVENT);
         boolean discountExists = discount.exists();
-        printGiftEvent(isGiftEvent);
+        printGiftEvent(wonGiftEvent);
         printBenefitDetail(discountExists);
         printTotalDiscount(discountExists, totalDiscount);
-        printEstimatedPrice(isGiftEvent, totalOrderPriceBefore, totalDiscount);
+        printEstimatedPrice(wonGiftEvent, totalOrderPrice, totalDiscount);
         printBadgeName(totalDiscount);
     }
 
@@ -83,12 +83,13 @@ public class EventPlanner {
         }
     }
 
-    private void printEstimatedPrice(boolean isGiftEvent, int totalOrderPriceBefore, int totalDiscount) {
+    private void printEstimatedPrice(boolean isGiftEvent, int totalOrderPrice, int totalDiscount) {
         if (isGiftEvent) {
-            outputView.printEstimatedPrice(totalOrderPriceBefore - totalDiscount + GIFT_EVENT.getDiscount());
+            outputView.printEstimatedPrice(totalOrderPrice - totalDiscount
+                    + discount.calculateDiscountAmount(GIFT_EVENT));
         }
         if (!isGiftEvent) {
-            outputView.printEstimatedPrice(totalOrderPriceBefore - totalDiscount);
+            outputView.printEstimatedPrice(totalOrderPrice - totalDiscount);
         }
     }
 

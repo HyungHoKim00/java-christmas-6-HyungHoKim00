@@ -23,40 +23,41 @@ public class Discount {
     private static final int WIN_EVENT = 1;
     private final Map<Event, Integer> discount;
 
-    public Discount(Date date, Order order, int totalOrderPriceBefore) {
+    public Discount(Date date, Order order, int totalOrderPrice) {
         this.discount = new EnumMap<>(Event.class);
-        if (totalOrderPriceBefore >= LEAST_ORDER_PRICE_FOR_DISCOUNT) {
+        if (totalOrderPrice >= LEAST_ORDER_PRICE_FOR_DISCOUNT) {
             putDDayDiscount(discount, date);
             putWeekdayDiscount(discount, date, order);
             putWeekendDiscount(discount, date, order);
             putSpecialDiscount(discount, date);
-            putGiftEventDiscount(discount, totalOrderPriceBefore);
+            putGiftEventDiscount(discount, totalOrderPrice);
             discount.entrySet().removeIf(entry -> entry.getValue() == NONE.getDiscount());
         }
     }
 
-    public boolean isGiftEvent() {
-        return discount.containsKey(GIFT_EVENT);
+    public boolean contains(Event event) {
+        return discount.containsKey(event);
     }
 
     public int calculateTotal() {
         return discount.keySet().stream()
-                .mapToInt(event -> event.getDiscount() * discount.get(event))
+                .mapToInt(this::calculateDiscountAmount)
                 .sum();
     }
 
     public Map<String, Integer> generateDetail() {
         Map<String, Integer> discountDetail = new HashMap<>();
         discount.keySet()
-                .forEach(event -> {
-                    int discountAmount = discount.get(event) * event.getDiscount();
-                    discountDetail.put(event.getName(), discountAmount);
-                });
+                .forEach(event -> discountDetail.put(event.getName(), calculateDiscountAmount(event)));
         return discountDetail;
     }
 
     public boolean exists() {
         return !discount.isEmpty();
+    }
+
+    public int calculateDiscountAmount(Event event) {
+        return event.getDiscount() * discount.get(event);
     }
 
     private void putDDayDiscount(Map<Event, Integer> discountDetails, Date date) {
@@ -83,8 +84,8 @@ public class Discount {
         }
     }
 
-    private void putGiftEventDiscount(Map<Event, Integer> discountDetails, int totalOrderPriceBefore) {
-        if (totalOrderPriceBefore >= LEAST_ORDER_PRICE_FOR_GIFT_EVENT) {
+    private void putGiftEventDiscount(Map<Event, Integer> discountDetails, int totalOrderPrice) {
+        if (totalOrderPrice >= LEAST_ORDER_PRICE_FOR_GIFT_EVENT) {
             discountDetails.put(GIFT_EVENT, WIN_EVENT);
         }
     }
