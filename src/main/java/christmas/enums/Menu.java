@@ -37,10 +37,6 @@ public enum Menu {
         return name;
     }
 
-    public MenuType getType() {
-        return type;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -50,5 +46,13 @@ public enum Menu {
                 .filter(menu -> menu.name.equals(name))
                 .findFirst()
                 .orElse(INVALID_MENU);
+    }
+
+    public boolean isInvalid() {
+        return this.equals(INVALID_MENU);
+    }
+
+    public boolean compareType(MenuType type) {
+        return this.type.equals(type);
     }
 }

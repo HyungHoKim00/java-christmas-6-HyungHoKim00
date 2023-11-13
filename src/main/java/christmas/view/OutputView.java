@@ -1,7 +1,6 @@
 package christmas.view;
 
 import java.text.DecimalFormat;
-import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -21,9 +20,9 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printMenu(List<String> menuDetail) {
+    public void printOrderDetail(Map<String, Integer> orderDetail) {
         System.out.println("<주문 메뉴>");
-        menuDetail.forEach(System.out::println);
+        orderDetail.forEach((key, value) -> System.out.println(key + " " + value + "개"));
         System.out.println();
     }
 
@@ -42,16 +41,15 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printDiscountDetailsTitle() {
+    public void printBenefitDetailTitle() {
         System.out.println("<혜택 내역>");
     }
 
-    public void printDiscountDetails(Map<String, Integer> discountDetails) {
-        discountDetails.keySet()
-                .forEach(discountName -> {
-                    String discountAmount = MONEY.format(discountDetails.get(discountName));
-                    System.out.println(discountName + ": -" + discountAmount + "원");
-                });
+    public void printBenefitDetail(Map<String, Integer> benefitDetail) {
+        benefitDetail.forEach((key, value) -> {
+            String discountAmount = MONEY.format(value);
+            System.out.println(key + ": -" + discountAmount + "원");
+        });
         System.out.println();
     }
 
@@ -64,7 +62,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printTotalDiscountWhenZero() {
+    public void printTotalDiscountIsZero() {
         System.out.println("0원");
         System.out.println();
     }

@@ -21,6 +21,17 @@ public class InputValidator {
     }
 
 
+    public static void validateOrderSentence(String input) {
+        if (commaDoubledOrInEdge(input)) {
+            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
+        }
+    }
+
+    private static boolean commaDoubledOrInEdge(String input) {
+        return input.contains(",,") || input.startsWith(",") || input.endsWith(",");
+    }
+
+
     public static void validateMenuNameAndAmounts(List<String> menuNameAndAmounts) {
         if (invalidType(menuNameAndAmounts)) {
             throw new IllegalArgumentException(ORDER_ERROR.getMessage());

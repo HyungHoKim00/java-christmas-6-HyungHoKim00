@@ -17,6 +17,7 @@ public class InputView {
 
     public Map<Menu, Integer> readOrder() {
         String input = Console.readLine();
+        InputValidator.validateOrderSentence(input);
         List<String> menuNameAndAmounts = new ArrayList<>(List.of(input.split(",")));
         InputValidator.validateMenuNameAndAmounts(menuNameAndAmounts);
         Map<Menu, Integer> order = new EnumMap<>(Menu.class);

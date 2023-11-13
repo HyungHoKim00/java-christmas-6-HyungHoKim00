@@ -3,24 +3,23 @@ package christmas.enums;
 import static christmas.enums.Menu.CHAMPAGNE;
 
 public enum Event {
-    D_DAY_BASIC("크리스마스 디데이 할인", 1_000),
-    D_DAY_BONUS("", 100),
-    WEEKDAY("평일 할인", 2_023),
-    WEEKEND("주말 할인", 2_023),
-    SPECIAL("특별 할인", 1_000),
-    GIFT("증정 이벤트", CHAMPAGNE.getPrice()),
+    D_DAY_EVENT("크리스마스 디데이 할인", 100),
+    WEEKDAY_EVENT("평일 할인", 2_023),
+    WEEKEND_EVENT("주말 할인", 2_023),
+    SPECIAL_EVENT("특별 할인", 1_000),
+    GIFT_EVENT("증정 이벤트", CHAMPAGNE.getPrice()),
     NONE("", 0);
 
-    private final String eventName;
+    private final String name;
     private final int discount;
 
-    Event(String eventName, int discount) {
-        this.eventName = eventName;
+    Event(String name, int discount) {
+        this.name = name;
         this.discount = discount;
     }
 
-    public String getEventName() {
-        return eventName;
+    public String getName() {
+        return name;
     }
 
     public int getDiscount() {

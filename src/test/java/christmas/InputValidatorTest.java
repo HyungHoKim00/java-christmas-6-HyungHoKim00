@@ -15,6 +15,14 @@ public class InputValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName("주문 문장 판별")
+    @Test
+    void invalidOrderSentence() {
+        assertThatThrownBy(() -> InputValidator
+                .validateOrderSentence("티본스테이크-2,"))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @DisplayName("주문 형식 판별")
     @Test
     void invalidMenuAndAmountsThrowsException() {

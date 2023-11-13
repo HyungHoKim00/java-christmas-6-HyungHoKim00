@@ -1,12 +1,10 @@
 package christmas;
 
-import static christmas.enums.Event.SPECIAL;
-import static christmas.enums.Event.WEEKDAY;
-import static christmas.enums.Event.WEEKEND;
 import static christmas.enums.Menu.INVALID_MENU;
 import static christmas.enums.Menu.TAPAS;
 import static christmas.enums.Menu.T_BONE_STEAK;
 import static christmas.enums.Menu.ZERO_COKE;
+import static christmas.enums.MenuType.MAIN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -32,7 +30,7 @@ public class OrderTest {
     @DisplayName("할인 전 총 주문 금액 계산")
     @Test
     void calculateTotalOrderPriceBefore() {
-        int result = VALID_ORDER.calculateTotalOrderPriceBefore();
+        int result = VALID_ORDER.calculateTotalPriceBefore();
         int expected = Menu.T_BONE_STEAK.getPrice()
                 + Menu.BBQ_RIBS.getPrice()
                 + Menu.CHOCOLATE_CAKE.getPrice() * 2
@@ -41,29 +39,11 @@ public class OrderTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @DisplayName("평일 할인 계산")
+    @DisplayName("어떤 종류의 메뉴 개수 계산")
     @Test
     void calculateWeekdayDiscount() {
-        int result = VALID_ORDER.getWeekdayDiscount();
-        int expected = WEEKDAY.getDiscount() * 2;
-
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @DisplayName("주말 할인 계산")
-    @Test
-    void calculateWeekendDiscount() {
-        int result = VALID_ORDER.getWeekendDiscount();
-        int expected = WEEKEND.getDiscount() * 2;
-
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @DisplayName("특별 할인 계산")
-    @Test
-    void calculateSpecialDiscount() {
-        int result = VALID_ORDER.getSpecialDiscount();
-        int expected = SPECIAL.getDiscount();
+        int result = VALID_ORDER.generateAmountTypeOf(MAIN);
+        int expected = 2;
 
         assertThat(result).isEqualTo(expected);
     }
