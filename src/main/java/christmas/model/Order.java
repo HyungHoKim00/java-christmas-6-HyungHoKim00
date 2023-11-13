@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Order {
     private static final int LEAST_AMOUNT = 1;
@@ -66,20 +65,11 @@ public class Order {
     }
 
     private static boolean nameNotExist(List<Menu> menus) {
-        AtomicBoolean nameNotExist = new AtomicBoolean(false);
-        menus.forEach(menu -> {
-            if (menu.isInvalid()) {
-                nameNotExist.set(true);
-            }
-        });
-        return nameNotExist.get();
+        return menus.stream().anyMatch(Menu::isInvalid);
     }
 
     private static boolean onlyDrinks(List<Menu> menus) {
-        long numberOfDrinks = menus.stream()
-                .filter(menu -> menu.compareType(DRINK))
-                .count();
-        return menus.size() == numberOfDrinks;
+        return menus.stream().allMatch(menu -> menu.compareType(DRINK));
     }
 
     private static void validateAmount(List<Integer> amounts) {
