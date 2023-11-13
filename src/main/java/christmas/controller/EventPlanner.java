@@ -94,7 +94,7 @@ public class EventPlanner {
     }
 
     public String getBadgeName(int totalDiscount) {
-        return Badge.determineBadge(totalDiscount).getName();
+        return Badge.determineByPrice(totalDiscount).getName();
     }
 
 

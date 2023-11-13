@@ -20,7 +20,7 @@ public enum Badge {
         return name;
     }
 
-    public static Badge determineBadge(int totalDiscountPrice) {
+    public static Badge determineByPrice(int totalDiscountPrice) {
         return Arrays.stream(values())
                 .filter(badge -> totalDiscountPrice >= badge.leastCondition)
                 .findFirst()
