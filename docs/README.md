@@ -2,40 +2,42 @@
 
 ### 입력
 
-- [x] 방문 날짜
-    - [x] 1 이상 31 이하의 숫자가 아닌 경우 예외 처리
-- [x] 메뉴 및 개수
-    - [x] 메뉴판에 없는 메뉴를 입력하는 경우 예외 처리
-    - [x] 메뉴 형식이 예시와 다른 경우 예외 처리
-    - [x] 중복 메뉴를 입력한 경우 예외 처리
-    - [x] 음료만 주문하는 경우 예외 처리
-    - [x] 개수가 1 이상의 정수가 아닌 경우 예외 처리
-    - [x] 총 개수가 20 초과인 경우 예외 처리
+- [x] 방문 날짜 - InputView.readDate()
+    - [x] 입력이 양의 정수가 아닌 경우 예외 처리 - InputValidator.validateDate()
+    - [x] 1 이상 31 이하가 아닌 경우 예외 처리 - Date.validate()
+- [x] 메뉴 및 개수 - InputView.readOrder()
+    - [x] 컴마로 시작하거나 끝나거나 두개 이상 연속되는 경우 예외 처리 - InputValidator.validateOrderSentence()
+    - [x] 메뉴 형식이 예시와 다른 경우 예외 처리 - InputValidator.validateMenuNameAndAmounts()
+    - [x] 개수가 1 이상의 정수가 아닌 경우 예외 처리 - InputValidator.validateMenuNameAndAmounts()
+    - [x] 메뉴판에 없는 메뉴를 입력하는 경우 예외 처리 - Order.validateMenu()
+    - [x] 중복 메뉴를 입력한 경우 예외 처리 - Order.validateMenu()
+    - [x] 음료만 주문하는 경우 예외 처리 - Order.validateMenu()
+    - [x] 총 개수가 20 초과인 경우 예외 처리 - Order.validateAmount()
 
 ### 도메인
 
-- [x] 할인 전 총주문 금액 계산
-- [x] 혜택 내역 선정
-    - [x] 크리스마스 디데이 할인
-    - [x] 평일 할인
-    - [x] 주말 할인
-    - [x] 특별 할인
-    - [x] 증정 이벤트
-- [x] 총혜택 금액 계산
-- [x] 12월 이벤트 배지 부여 선정
+- [x] 할인 전 총주문 금액 계산 - Order.calculateTotalPriceBefore()
+- [x] 혜택 내역 선정 - Discount.Discount()
+    - [x] 크리스마스 디데이 할인 - Discount.putDDayDiscount()
+    - [x] 평일 할인 - Discount.puyWeekdayDiscount()
+    - [x] 주말 할인 - Discount.putWeekendDiscount()
+    - [x] 특별 할인 - Discount.putSpecialDiscount()
+    - [x] 증정 이벤트 - Discount.putGiftEventDiscount()
+- [x] 총혜택 금액 계산 - Discount.calculateTotal()
+- [x] 12월 이벤트 배지 부여 선정 - Badge.determineBadge()
 
 ### 출력
 
-- [x] 주문 메뉴
-- [x] 할인 전 총주문 금액
-- [x] 증정 메뉴
-    - [x] 없는 경우 "없음" 출력
-- [x] 혜택 내역
-    - [x] 없는 경우 "없음" 출력
-- [x] 총혜택 금액
-- [x] 할인 후 예상 결제 금액
-- [x] 12월 이벤트 배지 내용
-    - [x] 없는 경우 "없음" 출력
+- [x] 주문 메뉴 - OutputView.printOrderDetail()
+- [x] 할인 전 총주문 금액 - OutputView.printTotalPriceBefore()
+- [x] 증정 메뉴 - OutputView.printGiftEvent()
+    - [x] 없는 경우 "없음" 출력 - OutputView.printNotExist()
+- [x] 혜택 내역 - OutputView.printBenefitDetail()
+    - [x] 없는 경우 "없음" 출력 - OutputView.printNotExist()
+- [x] 총혜택 금액 - OutputView.printTotalDiscount()
+- [x] 할인 후 예상 결제 금액 - OutputView.printEstimatedPrice()
+- [x] 12월 이벤트 배지 내용 - OutputView.printEventBadge()
+    - [x] 없는 경우 "없음" 출력 - Badge.NOT_EXIST.getName()
 
 ## 기능 요구 사항
 
