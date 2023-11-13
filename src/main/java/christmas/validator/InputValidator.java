@@ -1,18 +1,18 @@
 package christmas.validator;
 
+import static christmas.enums.ErrorMessage.DATE_ERROR;
+import static christmas.enums.ErrorMessage.ORDER_ERROR;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InputValidator {
-    private static final String DATE_ERROR_MESSAGE = "[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.";
-    private static final String ORDER_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
-    private static final String POSITIVE_INTEGER_PATTERN = "^\\d+$";
-
+    private static final String POSITIVE_INTEGER_PATTERN = "^[1-9]\\d*$";
 
     public static void validateDate(String date) {
         if (isNotPositiveInteger(date)) {
-            throw new IllegalArgumentException(DATE_ERROR_MESSAGE);
+            throw new IllegalArgumentException(DATE_ERROR.getMessage());
         }
     }
 
@@ -23,10 +23,10 @@ public class InputValidator {
 
     public static void validateMenuNameAndAmounts(List<String> menuNameAndAmounts) {
         if (invalidType(menuNameAndAmounts)) {
-            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
         }
         if (duplicatedName(menuNameAndAmounts)) {
-            throw new IllegalArgumentException(ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
         }
     }
 

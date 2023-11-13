@@ -1,8 +1,8 @@
 package christmas;
 
-import static christmas.enums.Discount.D_DAY_BASIC;
-import static christmas.enums.Discount.SPECIAL;
-import static christmas.enums.Discount.WEEKDAY_AND_WEEKEND;
+import static christmas.enums.Event.SPECIAL;
+import static christmas.enums.Event.WEEKDAY;
+import static christmas.enums.Event.WEEKEND;
 import static christmas.enums.Menu.INVALID_MENU;
 import static christmas.enums.Menu.TAPAS;
 import static christmas.enums.Menu.T_BONE_STEAK;
@@ -28,25 +28,15 @@ public class OrderTest {
             Menu.CHOCOLATE_CAKE, 2,
             Menu.ZERO_COKE, 1
     )));
-    private static final int FIRST_DAY = 1;
 
     @DisplayName("할인 전 총 주문 금액 계산")
     @Test
     void calculateTotalOrderPriceBefore() {
         int result = VALID_ORDER.calculateTotalOrderPriceBefore();
-        int expected = Menu.T_BONE_STEAK.price()
-                + Menu.BBQ_RIBS.price()
-                + Menu.CHOCOLATE_CAKE.price() * 2
-                + Menu.ZERO_COKE.price();
-
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @DisplayName("크리스마스 디데이 할인 계산")
-    @Test
-    void calculateDDayDiscount() {
-        int result = VALID_ORDER.getDDayDiscount(FIRST_DAY);
-        int expected = D_DAY_BASIC.discount();
+        int expected = Menu.T_BONE_STEAK.getPrice()
+                + Menu.BBQ_RIBS.getPrice()
+                + Menu.CHOCOLATE_CAKE.getPrice() * 2
+                + Menu.ZERO_COKE.getPrice();
 
         assertThat(result).isEqualTo(expected);
     }
@@ -55,7 +45,7 @@ public class OrderTest {
     @Test
     void calculateWeekdayDiscount() {
         int result = VALID_ORDER.getWeekdayDiscount();
-        int expected = WEEKDAY_AND_WEEKEND.discount() * 2;
+        int expected = WEEKDAY.getDiscount() * 2;
 
         assertThat(result).isEqualTo(expected);
     }
@@ -64,7 +54,7 @@ public class OrderTest {
     @Test
     void calculateWeekendDiscount() {
         int result = VALID_ORDER.getWeekendDiscount();
-        int expected = WEEKDAY_AND_WEEKEND.discount() * 2;
+        int expected = WEEKEND.getDiscount() * 2;
 
         assertThat(result).isEqualTo(expected);
     }
@@ -73,7 +63,7 @@ public class OrderTest {
     @Test
     void calculateSpecialDiscount() {
         int result = VALID_ORDER.getSpecialDiscount();
-        int expected = SPECIAL.discount();
+        int expected = SPECIAL.getDiscount();
 
         assertThat(result).isEqualTo(expected);
     }

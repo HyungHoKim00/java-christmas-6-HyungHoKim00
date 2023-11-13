@@ -4,15 +4,16 @@ public enum MenuType {
     APPETIZER("에피타이저"),
     MAIN("메인"),
     DESSERT("디저트"),
-    DRINK("음료");
+    DRINK("음료"),
+    INVALID_TYPE("");
 
-    private final String type;
+    private final String name;
 
-    MenuType(String type) {
-        this.type = type;
+    MenuType(String name) {
+        this.name = name;
     }
 
-    public String type() {
-        return type;
+    public String getName() {
+        return name;
     }
 }
