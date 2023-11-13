@@ -16,7 +16,7 @@
 
 ### 도메인
 
-- [x] 할인 전 총주문 금액 계산 - Order.calculateTotalPriceBefore()
+- [x] 할인 전 총주문 금액 계산 - Order.calculateTotalPrice()
 - [x] 혜택 내역 선정 - Discount.Discount()
     - [x] 크리스마스 디데이 할인 - Discount.putDDayDiscount()
     - [x] 평일 할인 - Discount.puyWeekdayDiscount()
@@ -24,12 +24,12 @@
     - [x] 특별 할인 - Discount.putSpecialDiscount()
     - [x] 증정 이벤트 - Discount.putGiftEventDiscount()
 - [x] 총혜택 금액 계산 - Discount.calculateTotal()
-- [x] 12월 이벤트 배지 부여 선정 - Badge.determineBadge()
+- [x] 12월 이벤트 배지 부여 선정 - Badge.determineByPrice()
 
 ### 출력
 
 - [x] 주문 메뉴 - OutputView.printOrderDetail()
-- [x] 할인 전 총주문 금액 - OutputView.printTotalPriceBefore()
+- [x] 할인 전 총주문 금액 - OutputView.printTotalPrice()
 - [x] 증정 메뉴 - OutputView.printGiftEvent()
     - [x] 없는 경우 "없음" 출력 - OutputView.printNotExist()
 - [x] 혜택 내역 - OutputView.printBenefitDetail()
@@ -98,7 +98,7 @@
 제로콜라(3,000), 레드와인(60,000), 샴페인(25,000)
 ```
 
-##입출력 예시
+## 입출력 예시
 
 ```
 안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.
