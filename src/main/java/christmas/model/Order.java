@@ -21,12 +21,7 @@ public class Order {
 
     public Map<String, Integer> generateDetail() {
         Map<String, Integer> orderDetail = new HashMap<>();
-        order.keySet()
-                .forEach(menu -> {
-                    String menuName = menu.getName();
-                    int menuAmount = order.get(menu);
-                    orderDetail.put(menuName, menuAmount);
-                });
+        order.forEach((menu, amount) -> orderDetail.put(menu.getName(), amount));
         return orderDetail;
     }
 
@@ -46,9 +41,9 @@ public class Order {
     private Map<Menu, Integer> validate(Map<Menu, Integer> order) {
         List<Menu> menus = new ArrayList<>();
         List<Integer> amounts = new ArrayList<>();
-        order.keySet().forEach(menu -> {
+        order.forEach((menu, amount) -> {
             menus.add(menu);
-            amounts.add(order.get(menu));
+            amounts.add(amount);
         });
         validateMenu(menus);
         validateAmount(amounts);
