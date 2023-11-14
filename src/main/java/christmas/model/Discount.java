@@ -6,6 +6,7 @@ import static christmas.enums.Event.NONE;
 import static christmas.enums.Event.SPECIAL_EVENT;
 import static christmas.enums.Event.WEEKDAY_EVENT;
 import static christmas.enums.Event.WEEKEND_EVENT;
+import static christmas.enums.EventGift.GIFT_EVENT_GIFT;
 import static christmas.enums.MenuType.DESSERT;
 import static christmas.enums.MenuType.MAIN;
 
@@ -18,25 +19,20 @@ import java.util.Map;
 public class Discount {
     private static final MenuType WEEKDAY_DISCOUNT_TYPE = DESSERT;
     private static final MenuType WEEKEND_DISCOUNT_TYPE = MAIN;
-    private static final int LEAST_ORDER_PRICE_FOR_DISCOUNT = 10_000;
-    private static final int LEAST_ORDER_PRICE_FOR_GIFT_EVENT = 120_000;
+    private static final int LEAST_ORDER_PRICE_CONDITION = 10_000;
     private static final int WIN_EVENT = 1;
     private final Map<Event, Integer> discount;
 
     public Discount(Date date, Order order, int totalOrderPrice) {
         this.discount = new EnumMap<>(Event.class);
-        if (totalOrderPrice >= LEAST_ORDER_PRICE_FOR_DISCOUNT) {
+        if (totalOrderPrice >= LEAST_ORDER_PRICE_CONDITION) {
             putDDayDiscount(discount, date);
             putWeekdayDiscount(discount, date, order);
             putWeekendDiscount(discount, date, order);
             putSpecialDiscount(discount, date);
             putGiftEventDiscount(discount, totalOrderPrice);
-            discount.entrySet().removeIf(entry -> entry.getValue() == NONE.getDiscount());
+            discount.values().removeIf(discount -> discount == NONE.getDiscount());
         }
-    }
-
-    public boolean contains(Event event) {
-        return discount.containsKey(event);
     }
 
     public int calculateTotal() {
@@ -45,15 +41,19 @@ public class Discount {
                 .sum();
     }
 
+    public boolean contains(Event event) {
+        return discount.containsKey(event);
+    }
+
+    public boolean exists() {
+        return !discount.isEmpty();
+    }
+
     public Map<String, Integer> generateDetail() {
         Map<String, Integer> discountDetail = new HashMap<>();
         discount.keySet()
                 .forEach(event -> discountDetail.put(event.getName(), calculateDiscountAmount(event)));
         return discountDetail;
-    }
-
-    public boolean exists() {
-        return !discount.isEmpty();
     }
 
     public int calculateDiscountAmount(Event event) {
@@ -85,7 +85,7 @@ public class Discount {
     }
 
     private void putGiftEventDiscount(Map<Event, Integer> discountDetails, int totalOrderPrice) {
-        if (totalOrderPrice >= LEAST_ORDER_PRICE_FOR_GIFT_EVENT) {
+        if (totalOrderPrice >= GIFT_EVENT_GIFT.getLeastCondition()) {
             discountDetails.put(GIFT_EVENT, WIN_EVENT);
         }
     }

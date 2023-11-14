@@ -41,12 +41,12 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printBenefitDetailTitle() {
+    public void printDiscountDetailTitle() {
         System.out.println("<혜택 내역>");
     }
 
-    public void printBenefitDetail(Map<String, Integer> benefitDetail) {
-        benefitDetail.forEach((key, value) -> {
+    public void printDiscountDetail(Map<String, Integer> discountDetail) {
+        discountDetail.forEach((key, value) -> {
             String discountAmount = MONEY.format(value);
             System.out.println(key + ": -" + discountAmount + "원");
         });

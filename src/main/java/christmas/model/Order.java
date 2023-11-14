@@ -19,12 +19,6 @@ public class Order {
         this.order = validate(order);
     }
 
-    public Map<String, Integer> generateDetail() {
-        Map<String, Integer> orderDetail = new HashMap<>();
-        order.forEach((menu, amount) -> orderDetail.put(menu.getName(), amount));
-        return orderDetail;
-    }
-
     public int calculateTotalPrice() {
         return order.keySet().stream()
                 .mapToInt(menu -> menu.getPrice() * order.get(menu))
@@ -36,6 +30,12 @@ public class Order {
                 .filter(menu -> menu.compareType(type))
                 .mapToInt(order::get)
                 .sum();
+    }
+
+    public Map<String, Integer> generateDetail() {
+        Map<String, Integer> orderDetail = new HashMap<>();
+        order.forEach((menu, amount) -> orderDetail.put(menu.getName(), amount));
+        return orderDetail;
     }
 
     private Map<Menu, Integer> validate(Map<Menu, Integer> order) {

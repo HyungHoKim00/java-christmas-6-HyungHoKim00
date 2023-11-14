@@ -1,7 +1,7 @@
 package christmas.controller;
 
 import static christmas.enums.Event.GIFT_EVENT;
-import static christmas.enums.Menu.CHAMPAGNE;
+import static christmas.enums.EventGift.GIFT_EVENT_GIFT;
 
 import christmas.enums.Badge;
 import christmas.enums.Menu;
@@ -13,8 +13,6 @@ import christmas.view.OutputView;
 import java.util.Map;
 
 public class EventPlanner {
-    private static final String GIFT_NAME = CHAMPAGNE.getName();
-    private static final int GIFT_AMOUNT = 1;
     private final InputView inputview;
     private final OutputView outputView;
     private Date date;
@@ -46,7 +44,7 @@ public class EventPlanner {
         boolean wonGiftEvent = discount.contains(GIFT_EVENT);
         boolean discountExists = discount.exists();
         printGiftEvent(wonGiftEvent);
-        printBenefitDetail(discountExists);
+        printDiscountDetail(discountExists);
         printTotalDiscount(discountExists, totalDiscount);
         printEstimatedPrice(wonGiftEvent, totalOrderPrice, totalDiscount);
         printBadgeName(totalDiscount);
@@ -56,17 +54,17 @@ public class EventPlanner {
     private void printGiftEvent(boolean isGiftEvent) {
         outputView.printGiftEventTitle();
         if (isGiftEvent) {
-            outputView.printGiftEvent(GIFT_NAME, GIFT_AMOUNT);
+            outputView.printGiftEvent(GIFT_EVENT_GIFT.getName(), GIFT_EVENT_GIFT.getAmount());
         }
         if (!isGiftEvent) {
             outputView.printNotExist();
         }
     }
 
-    private void printBenefitDetail(boolean discountExists) {
-        outputView.printBenefitDetailTitle();
+    private void printDiscountDetail(boolean discountExists) {
+        outputView.printDiscountDetailTitle();
         if (discountExists) {
-            outputView.printBenefitDetail(discount.generateDetail());
+            outputView.printDiscountDetail(discount.generateDetail());
         }
         if (!discountExists) {
             outputView.printNotExist();

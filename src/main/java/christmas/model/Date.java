@@ -17,10 +17,6 @@ public class Date {
         this.date = validate(date);
     }
 
-    public String toString() {
-        return String.format("12월 %d일", date);
-    }
-
     public int calculateDDayMultiplicand() {
         return date + D_DAY_MULTIPLICAND_DEFAULT;
     }
@@ -39,6 +35,10 @@ public class Date {
 
     public boolean isSpecialDay() {
         return STAR.contains(date);
+    }
+
+    public String toString() {
+        return String.format("12월 %d일", date);
     }
 
 
