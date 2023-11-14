@@ -1,7 +1,7 @@
 package christmas.validator;
 
-import static christmas.enums.ErrorMessage.DATE_ERROR;
-import static christmas.enums.ErrorMessage.ORDER_ERROR;
+import static christmas.enums.ErrorMessage.ERROR_DATE_INVALID;
+import static christmas.enums.ErrorMessage.ERROR_ORDER_INVALID;
 
 import christmas.enums.Menu;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class InputValidator {
 
     public static int validateDate(String date) {
         if (isNotPositiveInteger(date)) {
-            throw new IllegalArgumentException(DATE_ERROR.getMessage());
+            throw new IllegalArgumentException(ERROR_DATE_INVALID.getMessage());
         }
         return Integer.parseInt(date);
     }
@@ -27,7 +27,7 @@ public class InputValidator {
 
     public static List<String> validateOrderSentence(String input) {
         if (commaDoubledOrInEdge(input)) {
-            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
         return List.of(input.split(","));
     }
@@ -39,10 +39,10 @@ public class InputValidator {
 
     public static Map<Menu, Integer> validateMenuNameAndAmounts(List<String> menuNameAndAmounts) {
         if (invalidType(menuNameAndAmounts)) {
-            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
         if (duplicatedName(menuNameAndAmounts)) {
-            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
         Map<Menu, Integer> order = new EnumMap<>(Menu.class);
         menuNameAndAmounts

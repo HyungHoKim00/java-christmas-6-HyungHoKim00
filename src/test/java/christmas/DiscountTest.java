@@ -38,7 +38,7 @@ public class DiscountTest {
     @Test
     void calculateDiscountTotal() {
         int result = VALID_DISCOUNT.calculateTotal();
-        int expected = D_DAY_EVENT.getDiscount() * VALID_DATE.calculateDDayMultiplicand()
+        int expected = D_DAY_EVENT.getDiscount() * VALID_DATE.calculateDDayEventMultiplicand()
                 + WEEKDAY_EVENT.getDiscount() * 2
                 + SPECIAL_EVENT.getDiscount()
                 + GIFT_EVENT.getDiscount();
@@ -60,7 +60,7 @@ public class DiscountTest {
     void generateDiscountDetail() {
         Map<String, Integer> result = VALID_DISCOUNT.generateDetail();
         Map<String, Integer> expected = Map.of(
-                D_DAY_EVENT.getName(), D_DAY_EVENT.getDiscount() * VALID_DATE.calculateDDayMultiplicand(),
+                D_DAY_EVENT.getName(), D_DAY_EVENT.getDiscount() * VALID_DATE.calculateDDayEventMultiplicand(),
                 WEEKDAY_EVENT.getName(), WEEKDAY_EVENT.getDiscount() * 2,
                 SPECIAL_EVENT.getName(), SPECIAL_EVENT.getDiscount(),
                 GIFT_EVENT.getName(), GIFT_EVENT.getDiscount()

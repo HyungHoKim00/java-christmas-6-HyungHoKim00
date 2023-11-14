@@ -2,7 +2,6 @@ package christmas.model;
 
 import static christmas.enums.Event.D_DAY_EVENT;
 import static christmas.enums.Event.GIFT_EVENT;
-import static christmas.enums.Event.NONE;
 import static christmas.enums.Event.SPECIAL_EVENT;
 import static christmas.enums.Event.WEEKDAY_EVENT;
 import static christmas.enums.Event.WEEKEND_EVENT;
@@ -17,21 +16,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Discount {
-    private static final MenuType WEEKDAY_DISCOUNT_TYPE = DESSERT;
-    private static final MenuType WEEKEND_DISCOUNT_TYPE = MAIN;
-    private static final int LEAST_CONDITION_ORDER_PRICE = 10_000;
-    private static final int WIN_EVENT = 1;
+    private static final MenuType MENU_TYPE_WEEKDAY = DESSERT;
+    private static final MenuType MENU_TYPE_WEEKEND = MAIN;
+    private static final int ORDER_PRICE_LEAST = 10_000;
+    private static final int NONE = 0;
+    private static final int EVENT_WON = 1;
     private final Map<Event, Integer> discount;
 
     public Discount(Date date, Order order, int orderPriceTotal) {
         this.discount = new EnumMap<>(Event.class);
-        if (orderPriceTotal >= LEAST_CONDITION_ORDER_PRICE) {
-            putDDayDiscount(discount, date);
-            putWeekdayDiscount(discount, date, order);
-            putWeekendDiscount(discount, date, order);
-            putSpecialDiscount(discount, date);
-            putGiftEventDiscount(discount, orderPriceTotal);
-            discount.values().removeIf(discount -> discount == NONE.getDiscount());
+        if (orderPriceTotal >= ORDER_PRICE_LEAST) {
+            putDDayDiscount(date);
+            putWeekdayDiscount(date, order);
+            putWeekendDiscount(date, order);
+            putSpecialDiscount(date);
+            putGiftEventDiscount(orderPriceTotal);
+            discount.values().removeIf(discountAmount -> discountAmount == NONE);
         }
     }
 
@@ -39,14 +39,6 @@ public class Discount {
         return discount.keySet().stream()
                 .mapToInt(this::calculateDiscountAmount)
                 .sum();
-    }
-
-    public boolean contains(Event event) {
-        return discount.containsKey(event);
-    }
-
-    public boolean exists() {
-        return !discount.isEmpty();
     }
 
     public Map<String, Integer> generateDetail() {
@@ -57,36 +49,48 @@ public class Discount {
     }
 
     public int calculateDiscountAmount(Event event) {
-        return event.getDiscount() * discount.get(event);
+        if (contains(event)) {
+            return event.getDiscount() * discount.get(event);
+        }
+        return NONE;
     }
 
-    private void putDDayDiscount(Map<Event, Integer> discountDetails, Date date) {
-        if (date.beforeChristmas()) {
-            discountDetails.put(D_DAY_EVENT, date.calculateDDayMultiplicand());
+    public boolean contains(Event event) {
+        return discount.containsKey(event);
+    }
+
+    public boolean exists() {
+        return !discount.isEmpty();
+    }
+
+
+    private void putDDayDiscount(Date date) {
+        if (date.isChristmasOrBefore()) {
+            discount.put(D_DAY_EVENT, date.calculateDDayEventMultiplicand());
         }
     }
 
-    private void putWeekdayDiscount(Map<Event, Integer> discountDetails, Date date, Order order) {
+    private void putWeekdayDiscount(Date date, Order order) {
         if (date.isWeekday()) {
-            discountDetails.put(WEEKDAY_EVENT, order.generateAmountTypeOf(WEEKDAY_DISCOUNT_TYPE));
+            discount.put(WEEKDAY_EVENT, order.generateAmountTypeOf(MENU_TYPE_WEEKDAY));
         }
     }
 
-    private void putWeekendDiscount(Map<Event, Integer> discountDetails, Date date, Order order) {
+    private void putWeekendDiscount(Date date, Order order) {
         if (date.isWeekend()) {
-            discountDetails.put(WEEKEND_EVENT, order.generateAmountTypeOf(WEEKEND_DISCOUNT_TYPE));
+            discount.put(WEEKEND_EVENT, order.generateAmountTypeOf(MENU_TYPE_WEEKEND));
         }
     }
 
-    private void putSpecialDiscount(Map<Event, Integer> discountDetails, Date date) {
+    private void putSpecialDiscount(Date date) {
         if (date.isSpecialDay()) {
-            discountDetails.put(SPECIAL_EVENT, WIN_EVENT);
+            discount.put(SPECIAL_EVENT, EVENT_WON);
         }
     }
 
-    private void putGiftEventDiscount(Map<Event, Integer> discountDetails, int orderPriceTotal) {
-        if (orderPriceTotal >= GIFT_EVENT_GIFT.getLeastCondition()) {
-            discountDetails.put(GIFT_EVENT, WIN_EVENT);
+    private void putGiftEventDiscount(int orderPriceTotal) {
+        if (orderPriceTotal >= GIFT_EVENT_GIFT.getConditionLeast()) {
+            discount.put(GIFT_EVENT, EVENT_WON);
         }
     }
 }

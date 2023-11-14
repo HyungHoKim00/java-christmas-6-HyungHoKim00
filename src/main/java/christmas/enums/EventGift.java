@@ -7,12 +7,12 @@ public enum EventGift {
 
     private final Menu menu;
     private final int amount;
-    private final int leastCondition;
+    private final int conditionLeast;
 
-    EventGift(Menu menu, int amount, int leastCondition) {
+    EventGift(Menu menu, int amount, int conditionLeast) {
         this.menu = menu;
         this.amount = amount;
-        this.leastCondition = leastCondition;
+        this.conditionLeast = conditionLeast;
     }
 
     public String getName() {
@@ -23,8 +23,8 @@ public enum EventGift {
         return amount;
     }
 
-    public int getLeastCondition() {
-        return leastCondition;
+    public int getConditionLeast() {
+        return conditionLeast;
     }
 
     public int getPrice() {

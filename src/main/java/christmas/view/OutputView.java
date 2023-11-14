@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.Map;
 
 public class OutputView {
-    private static final DecimalFormat MONEY = new DecimalFormat("#,###");
+    private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("#,###");
 
     public void printDateRequestMessage() {
         System.out.println("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.");
@@ -28,7 +28,7 @@ public class OutputView {
 
     public void printOrderPriceTotal(int orderPriceTotal) {
         System.out.println("<할인 전 총주문 금액>");
-        System.out.println(MONEY.format(orderPriceTotal) + "원");
+        System.out.println(MONEY_FORMAT.format(orderPriceTotal) + "원");
         System.out.println();
     }
 
@@ -36,7 +36,7 @@ public class OutputView {
         System.out.println("<증정 메뉴>");
     }
 
-    public void printGiftEvent(String giftName, int giftAmount) {
+    public void printGiftEventDetail(String giftName, int giftAmount) {
         System.out.println(giftName + " " + giftAmount + "개");
         System.out.println();
     }
@@ -47,7 +47,7 @@ public class OutputView {
 
     public void printDiscountDetail(Map<String, Integer> discountDetail) {
         discountDetail.forEach((key, value) -> {
-            String discountAmount = MONEY.format(value);
+            String discountAmount = MONEY_FORMAT.format(value);
             System.out.println(key + ": -" + discountAmount + "원");
         });
         System.out.println();
@@ -58,7 +58,7 @@ public class OutputView {
     }
 
     public void printDiscountTotal(int discountTotal) {
-        System.out.println("-" + MONEY.format(discountTotal) + "원");
+        System.out.println("-" + MONEY_FORMAT.format(discountTotal) + "원");
         System.out.println();
     }
 
@@ -69,15 +69,12 @@ public class OutputView {
 
     public void printPriceEstimated(int priceEstimated) {
         System.out.println("<할인 후 예상 결제 금액>");
-        System.out.println(MONEY.format(priceEstimated) + "원");
+        System.out.println(MONEY_FORMAT.format(priceEstimated) + "원");
         System.out.println();
     }
 
-    public void printEventBadgeTitle() {
-        System.out.println("<12월 이벤트 배지>");
-    }
-
     public void printEventBadge(String badgeName) {
+        System.out.println("<12월 이벤트 배지>");
         System.out.println(badgeName);
         System.out.println();
     }

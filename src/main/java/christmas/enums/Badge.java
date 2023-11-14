@@ -9,11 +9,11 @@ public enum Badge {
     NOT_EXIST("없음", 0);
 
     private final String name;
-    private final int leastCondition;
+    private final int conditionLeast;
 
-    Badge(String name, int leastCondition) {
+    Badge(String name, int conditionLeast) {
         this.name = name;
-        this.leastCondition = leastCondition;
+        this.conditionLeast = conditionLeast;
     }
 
     public String getName() {
@@ -22,7 +22,7 @@ public enum Badge {
 
     public static Badge determineByPrice(int discountPriceTotal) {
         return Arrays.stream(values())
-                .filter(badge -> discountPriceTotal >= badge.leastCondition)
+                .filter(badge -> discountPriceTotal >= badge.conditionLeast)
                 .findFirst()
                 .orElse(NOT_EXIST);
     }

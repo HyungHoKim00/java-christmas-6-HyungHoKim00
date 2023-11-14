@@ -43,18 +43,18 @@ public class EventPlanner {
         int discountTotal = discount.calculateTotal();
         boolean wonGiftEvent = discount.contains(GIFT_EVENT);
         boolean discountExists = discount.exists();
-        printGiftEvent(wonGiftEvent);
+        printGiftEventResult(wonGiftEvent);
         printDiscountDetail(discountExists);
         printDiscountTotal(discountExists, discountTotal);
-        printPriceEstimated(wonGiftEvent, OrderPriceTotal, discountTotal);
+        printPriceEstimated(OrderPriceTotal, discountTotal);
         printBadgeName(discountTotal);
     }
 
 
-    private void printGiftEvent(boolean isGiftEvent) {
+    private void printGiftEventResult(boolean isGiftEvent) {
         outputView.printGiftEventTitle();
         if (isGiftEvent) {
-            outputView.printGiftEvent(GIFT_EVENT_GIFT.getName(), GIFT_EVENT_GIFT.getAmount());
+            outputView.printGiftEventDetail(GIFT_EVENT_GIFT.getName(), GIFT_EVENT_GIFT.getAmount());
         }
         if (!isGiftEvent) {
             outputView.printNotExist();
@@ -81,18 +81,12 @@ public class EventPlanner {
         }
     }
 
-    private void printPriceEstimated(boolean isGiftEvent, int OrderPriceTotal, int discountTotal) {
-        if (isGiftEvent) {
-            outputView.printPriceEstimated(OrderPriceTotal - discountTotal
-                    + discount.calculateDiscountAmount(GIFT_EVENT));
-        }
-        if (!isGiftEvent) {
-            outputView.printPriceEstimated(OrderPriceTotal - discountTotal);
-        }
+    private void printPriceEstimated(int OrderPriceTotal, int discountTotal) {
+        outputView.printPriceEstimated(OrderPriceTotal - discountTotal
+                + discount.calculateDiscountAmount(GIFT_EVENT));
     }
 
     private void printBadgeName(int discountTotal) {
-        outputView.printEventBadgeTitle();
         outputView.printEventBadge(getBadgeName(discountTotal));
     }
 

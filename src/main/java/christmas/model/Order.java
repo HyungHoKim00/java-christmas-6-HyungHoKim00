@@ -1,6 +1,6 @@
 package christmas.model;
 
-import static christmas.enums.ErrorMessage.ORDER_ERROR;
+import static christmas.enums.ErrorMessage.ERROR_ORDER_INVALID;
 import static christmas.enums.MenuType.DRINK;
 
 import christmas.enums.Menu;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Order {
-    private static final int LEAST_AMOUNT = 1;
-    private static final int MAX_AMOUNT = 20;
+    private static final int AMOUNT_MIN = 1;
+    private static final int AMOUNT_MAX = 20;
     private final Map<Menu, Integer> order;
 
     public Order(Map<Menu, Integer> order) {
@@ -52,10 +52,10 @@ public class Order {
 
     private static void validateMenu(List<Menu> menus) {
         if (nameNotExist(menus)) {
-            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
         if (onlyDrinks(menus)) {
-            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class Order {
 
     private static void validateAmount(List<Integer> amounts) {
         if (totalAmountOutOfRange(amounts)) {
-            throw new IllegalArgumentException(ORDER_ERROR.getMessage());
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
     }
 
@@ -77,6 +77,6 @@ public class Order {
         int sum = amounts.stream()
                 .mapToInt(Integer::intValue)
                 .sum();
-        return sum > MAX_AMOUNT || sum < LEAST_AMOUNT;
+        return sum > AMOUNT_MAX || sum < AMOUNT_MIN;
     }
 }

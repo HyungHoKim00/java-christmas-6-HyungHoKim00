@@ -1,15 +1,15 @@
 package christmas.model;
 
-import static christmas.enums.ErrorMessage.DATE_ERROR;
+import static christmas.enums.ErrorMessage.ERROR_DATE_INVALID;
 
 import java.util.List;
 
 public class Date {
-    private static final List<Integer> WEEKEND = List.of(1, 2, 8, 9, 15, 16, 22, 23, 29, 30);
-    private static final List<Integer> STAR = List.of(3, 10, 17, 24, 25, 31);
-    private static final int D_DAY_MULTIPLICAND_DEFAULT = 9;
-    private static final int LOWEST = 1;
-    private static final int HIGHEST = 31;
+    private static final List<Integer> WEEKENDS = List.of(1, 2, 8, 9, 15, 16, 22, 23, 29, 30);
+    private static final List<Integer> STAR_DAYS = List.of(3, 10, 17, 24, 25, 31);
+    private static final int D_DAY_EVENT_MULTIPLICAND_DEFAULT = 9;
+    private static final int MIN = 1;
+    private static final int MAX = 31;
     private static final int CHRISTMAS = 25;
     private final int date;
 
@@ -17,24 +17,24 @@ public class Date {
         this.date = validate(date);
     }
 
-    public int calculateDDayMultiplicand() {
-        return date + D_DAY_MULTIPLICAND_DEFAULT;
+    public int calculateDDayEventMultiplicand() {
+        return date + D_DAY_EVENT_MULTIPLICAND_DEFAULT;
     }
 
-    public boolean beforeChristmas() {
+    public boolean isChristmasOrBefore() {
         return date <= CHRISTMAS;
     }
 
     public boolean isWeekday() {
-        return !WEEKEND.contains(date);
+        return !WEEKENDS.contains(date);
     }
 
     public boolean isWeekend() {
-        return WEEKEND.contains(date);
+        return WEEKENDS.contains(date);
     }
 
     public boolean isSpecialDay() {
-        return STAR.contains(date);
+        return STAR_DAYS.contains(date);
     }
 
     public String toString() {
@@ -44,12 +44,12 @@ public class Date {
 
     private int validate(int date) {
         if (outOfRange(date)) {
-            throw new IllegalArgumentException(DATE_ERROR.getMessage());
+            throw new IllegalArgumentException(ERROR_DATE_INVALID.getMessage());
         }
         return date;
     }
 
     private static boolean outOfRange(int date) {
-        return date < LOWEST || date > HIGHEST;
+        return date < MIN || date > MAX;
     }
 }
