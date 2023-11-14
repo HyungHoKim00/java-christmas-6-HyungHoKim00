@@ -30,7 +30,7 @@
 
 - [x] 주문 메뉴 - OutputView.printOrderDetail()
 - [x] 할인 전 총주문 금액 - OutputView.printPriceTotal()
-- [x] 증정 메뉴 - OutputView.printGiftEvent()
+- [x] 증정 메뉴 - OutputView.printGiftEventDetail()
     - [x] 없는 경우 "없음" 출력 - OutputView.printNotExist()
 - [x] 혜택 내역 - OutputView.printBenefitDetail()
     - [x] 없는 경우 "없음" 출력 - OutputView.printNotExist()
