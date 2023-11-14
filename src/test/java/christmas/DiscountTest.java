@@ -4,9 +4,12 @@ import static christmas.enums.Event.D_DAY_EVENT;
 import static christmas.enums.Event.GIFT_EVENT;
 import static christmas.enums.Event.SPECIAL_EVENT;
 import static christmas.enums.Event.WEEKDAY_EVENT;
+import static christmas.enums.Menu.BBQ_RIBS;
+import static christmas.enums.Menu.CHOCOLATE_CAKE;
+import static christmas.enums.Menu.T_BONE_STEAK;
+import static christmas.enums.Menu.ZERO_COKE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.enums.Menu;
 import christmas.model.Date;
 import christmas.model.Discount;
 import christmas.model.Order;
@@ -18,18 +21,30 @@ import org.junit.jupiter.api.Test;
 public class DiscountTest {
     private static final Date VALID_DATE = new Date(3);
     private static final Order VALID_ORDER = new Order(new EnumMap<>(Map.of(
-            Menu.T_BONE_STEAK, 1,
-            Menu.BBQ_RIBS, 1,
-            Menu.CHOCOLATE_CAKE, 2,
-            Menu.ZERO_COKE, 1
+            T_BONE_STEAK, 1,
+            BBQ_RIBS, 1,
+            CHOCOLATE_CAKE, 2,
+            ZERO_COKE, 1
     )));
     private static final int VALID_TOTAL_ORDER_PRICE
-            = Menu.T_BONE_STEAK.getPrice()
-            + Menu.BBQ_RIBS.getPrice()
-            + Menu.CHOCOLATE_CAKE.getPrice() * 2
-            + Menu.ZERO_COKE.getPrice();
+            = T_BONE_STEAK.getPrice()
+            + BBQ_RIBS.getPrice()
+            + CHOCOLATE_CAKE.getPrice() * 2
+            + ZERO_COKE.getPrice();
     private static final Discount VALID_DISCOUNT
             = new Discount(VALID_DATE, VALID_ORDER, VALID_TOTAL_ORDER_PRICE);
+
+    @DisplayName("전체 할인 금액 계산")
+    @Test
+    void calculateTotalDiscount() {
+        int result = VALID_DISCOUNT.calculateTotal();
+        int expected = D_DAY_EVENT.getDiscount() * VALID_DATE.calculateDDayMultiplicand()
+                + WEEKDAY_EVENT.getDiscount() * 2
+                + SPECIAL_EVENT.getDiscount()
+                + GIFT_EVENT.getDiscount();
+
+        assertThat(result).isEqualTo(expected);
+    }
 
     @DisplayName("증정 이벤트 당첨 여부 선정")
     @Test
@@ -50,18 +65,6 @@ public class DiscountTest {
                 SPECIAL_EVENT.getName(), SPECIAL_EVENT.getDiscount(),
                 GIFT_EVENT.getName(), GIFT_EVENT.getDiscount()
         );
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @DisplayName("전체 할인 금액 계산")
-    @Test
-    void calculateTotalDiscount() {
-        int result = VALID_DISCOUNT.calculateTotal();
-        int expected = D_DAY_EVENT.getDiscount() * VALID_DATE.calculateDDayMultiplicand()
-                + WEEKDAY_EVENT.getDiscount() * 2
-                + SPECIAL_EVENT.getDiscount()
-                + GIFT_EVENT.getDiscount();
-
         assertThat(result).isEqualTo(expected);
     }
 }

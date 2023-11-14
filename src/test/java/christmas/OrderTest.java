@@ -1,5 +1,7 @@
 package christmas;
 
+import static christmas.enums.Menu.BBQ_RIBS;
+import static christmas.enums.Menu.CHOCOLATE_CAKE;
 import static christmas.enums.Menu.INVALID_MENU;
 import static christmas.enums.Menu.TAPAS;
 import static christmas.enums.Menu.T_BONE_STEAK;
@@ -21,20 +23,20 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class OrderTest {
     private static final Order VALID_ORDER = new Order(new EnumMap<>(Map.of(
-            Menu.T_BONE_STEAK, 1,
-            Menu.BBQ_RIBS, 1,
-            Menu.CHOCOLATE_CAKE, 2,
-            Menu.ZERO_COKE, 1
+            T_BONE_STEAK, 1,
+            BBQ_RIBS, 1,
+            CHOCOLATE_CAKE, 2,
+            ZERO_COKE, 1
     )));
 
     @DisplayName("할인 전 총 주문 금액 계산")
     @Test
     void calculateTotalOrderPrice() {
         int result = VALID_ORDER.calculateTotalPrice();
-        int expected = Menu.T_BONE_STEAK.getPrice()
-                + Menu.BBQ_RIBS.getPrice()
-                + Menu.CHOCOLATE_CAKE.getPrice() * 2
-                + Menu.ZERO_COKE.getPrice();
+        int expected = T_BONE_STEAK.getPrice()
+                + BBQ_RIBS.getPrice()
+                + CHOCOLATE_CAKE.getPrice() * 2
+                + ZERO_COKE.getPrice();
 
         assertThat(result).isEqualTo(expected);
     }
