@@ -16,7 +16,7 @@
 
 ### 도메인
 
-- [x] 할인 전 총주문 금액 계산 - Order.calculateTotalPrice()
+- [x] 할인 전 총주문 금액 계산 - Order.calculatePriceTotal()
 - [x] 혜택 내역 선정 - Discount.Discount()
     - [x] 크리스마스 디데이 할인 - Discount.putDDayDiscount()
     - [x] 평일 할인 - Discount.puyWeekdayDiscount()
@@ -29,12 +29,12 @@
 ### 출력
 
 - [x] 주문 메뉴 - OutputView.printOrderDetail()
-- [x] 할인 전 총주문 금액 - OutputView.printTotalPrice()
+- [x] 할인 전 총주문 금액 - OutputView.printPriceTotal()
 - [x] 증정 메뉴 - OutputView.printGiftEvent()
     - [x] 없는 경우 "없음" 출력 - OutputView.printNotExist()
 - [x] 혜택 내역 - OutputView.printBenefitDetail()
     - [x] 없는 경우 "없음" 출력 - OutputView.printNotExist()
-- [x] 총혜택 금액 - OutputView.printTotalDiscount()
+- [x] 총혜택 금액 - OutputView.printDiscountTotal()
 - [x] 할인 후 예상 결제 금액 - OutputView.printEstimatedPrice()
 - [x] 12월 이벤트 배지 내용 - OutputView.printEventBadge()
     - [x] 없는 경우 "없음" 출력 - Badge.NOT_EXIST.getName()

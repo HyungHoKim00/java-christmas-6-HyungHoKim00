@@ -31,8 +31,8 @@ public class OrderTest {
 
     @DisplayName("할인 전 총 주문 금액 계산")
     @Test
-    void calculateTotalOrderPrice() {
-        int result = VALID_ORDER.calculateTotalPrice();
+    void calculateOrderPriceTotal() {
+        int result = VALID_ORDER.calculatePriceTotal();
         int expected = T_BONE_STEAK.getPrice()
                 + BBQ_RIBS.getPrice()
                 + CHOCOLATE_CAKE.getPrice() * 2
@@ -43,7 +43,7 @@ public class OrderTest {
 
     @DisplayName("어떤 종류의 메뉴 개수 계산")
     @Test
-    void calculateAmountOfMain() {
+    void generateAmountOfTypeMain() {
         int result = VALID_ORDER.generateAmountTypeOf(MAIN);
         int expected = 2;
 

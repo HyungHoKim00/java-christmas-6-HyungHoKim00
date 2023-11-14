@@ -21,7 +21,7 @@ public class Date {
         return date + D_DAY_MULTIPLICAND_DEFAULT;
     }
 
-    public boolean isBeforeChristmas() {
+    public boolean beforeChristmas() {
         return date <= CHRISTMAS;
     }
 

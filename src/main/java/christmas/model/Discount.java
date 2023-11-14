@@ -19,18 +19,18 @@ import java.util.Map;
 public class Discount {
     private static final MenuType WEEKDAY_DISCOUNT_TYPE = DESSERT;
     private static final MenuType WEEKEND_DISCOUNT_TYPE = MAIN;
-    private static final int LEAST_ORDER_PRICE_CONDITION = 10_000;
+    private static final int LEAST_CONDITION_ORDER_PRICE = 10_000;
     private static final int WIN_EVENT = 1;
     private final Map<Event, Integer> discount;
 
-    public Discount(Date date, Order order, int totalOrderPrice) {
+    public Discount(Date date, Order order, int orderPriceTotal) {
         this.discount = new EnumMap<>(Event.class);
-        if (totalOrderPrice >= LEAST_ORDER_PRICE_CONDITION) {
+        if (orderPriceTotal >= LEAST_CONDITION_ORDER_PRICE) {
             putDDayDiscount(discount, date);
             putWeekdayDiscount(discount, date, order);
             putWeekendDiscount(discount, date, order);
             putSpecialDiscount(discount, date);
-            putGiftEventDiscount(discount, totalOrderPrice);
+            putGiftEventDiscount(discount, orderPriceTotal);
             discount.values().removeIf(discount -> discount == NONE.getDiscount());
         }
     }
@@ -61,7 +61,7 @@ public class Discount {
     }
 
     private void putDDayDiscount(Map<Event, Integer> discountDetails, Date date) {
-        if (date.isBeforeChristmas()) {
+        if (date.beforeChristmas()) {
             discountDetails.put(D_DAY_EVENT, date.calculateDDayMultiplicand());
         }
     }
@@ -84,8 +84,8 @@ public class Discount {
         }
     }
 
-    private void putGiftEventDiscount(Map<Event, Integer> discountDetails, int totalOrderPrice) {
-        if (totalOrderPrice >= GIFT_EVENT_GIFT.getLeastCondition()) {
+    private void putGiftEventDiscount(Map<Event, Integer> discountDetails, int orderPriceTotal) {
+        if (orderPriceTotal >= GIFT_EVENT_GIFT.getLeastCondition()) {
             discountDetails.put(GIFT_EVENT, WIN_EVENT);
         }
     }

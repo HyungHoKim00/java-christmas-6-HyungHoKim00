@@ -26,9 +26,9 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printTotalOrderPrice(int totalOrderPrice) {
+    public void printOrderPriceTotal(int orderPriceTotal) {
         System.out.println("<할인 전 총주문 금액>");
-        System.out.println(MONEY.format(totalOrderPrice) + "원");
+        System.out.println(MONEY.format(orderPriceTotal) + "원");
         System.out.println();
     }
 
@@ -53,23 +53,23 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printTotalDiscountTitle() {
+    public void printDiscountTotalTitle() {
         System.out.println("<총혜택 금액>");
     }
 
-    public void printTotalDiscount(int totalDiscount) {
-        System.out.println("-" + MONEY.format(totalDiscount) + "원");
+    public void printDiscountTotal(int discountTotal) {
+        System.out.println("-" + MONEY.format(discountTotal) + "원");
         System.out.println();
     }
 
-    public void printTotalDiscountIsZero() {
+    public void printDiscountTotalIsZero() {
         System.out.println("0원");
         System.out.println();
     }
 
-    public void printEstimatedPrice(int estimatedPrice) {
+    public void printPriceEstimated(int priceEstimated) {
         System.out.println("<할인 후 예상 결제 금액>");
-        System.out.println(MONEY.format(estimatedPrice) + "원");
+        System.out.println(MONEY.format(priceEstimated) + "원");
         System.out.println();
     }
 

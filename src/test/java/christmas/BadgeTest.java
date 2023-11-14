@@ -15,14 +15,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class BadgeTest {
     @DisplayName("배지 부여 선정")
     @ParameterizedTest(name = "{1} 배지 부여")
-    @MethodSource("totalDiscountAndBadge")
-    void getBadge(int totalDiscount, Badge badge) {
-        Badge result = Badge.determineByPrice(totalDiscount);
+    @MethodSource("discountTotalAndBadge")
+    void getBadge(int discountTotal, Badge badge) {
+        Badge result = Badge.determineByPrice(discountTotal);
 
         assertThat(result).isEqualTo(badge);
     }
 
-    static Stream<Arguments> totalDiscountAndBadge() {
+    static Stream<Arguments> discountTotalAndBadge() {
         return Stream.of(
                 Arguments.of(6000, STAR),
                 Arguments.of(12000, TREE),

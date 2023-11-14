@@ -26,17 +26,17 @@ public class DiscountTest {
             CHOCOLATE_CAKE, 2,
             ZERO_COKE, 1
     )));
-    private static final int VALID_TOTAL_ORDER_PRICE
+    private static final int VALID_ORDER_PRICE_TOTAL
             = T_BONE_STEAK.getPrice()
             + BBQ_RIBS.getPrice()
             + CHOCOLATE_CAKE.getPrice() * 2
             + ZERO_COKE.getPrice();
     private static final Discount VALID_DISCOUNT
-            = new Discount(VALID_DATE, VALID_ORDER, VALID_TOTAL_ORDER_PRICE);
+            = new Discount(VALID_DATE, VALID_ORDER, VALID_ORDER_PRICE_TOTAL);
 
     @DisplayName("전체 할인 금액 계산")
     @Test
-    void calculateTotalDiscount() {
+    void calculateDiscountTotal() {
         int result = VALID_DISCOUNT.calculateTotal();
         int expected = D_DAY_EVENT.getDiscount() * VALID_DATE.calculateDDayMultiplicand()
                 + WEEKDAY_EVENT.getDiscount() * 2

@@ -19,7 +19,7 @@ public class Order {
         this.order = validate(order);
     }
 
-    public int calculateTotalPrice() {
+    public int calculatePriceTotal() {
         return order.keySet().stream()
                 .mapToInt(menu -> menu.getPrice() * order.get(menu))
                 .sum();

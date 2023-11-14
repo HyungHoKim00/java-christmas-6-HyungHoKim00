@@ -27,27 +27,27 @@ public class EventPlanner {
     public void run() {
         this.date = validateDate();
         this.order = validateOrder();
-        int totalOrderPrice = order.calculateTotalPrice();
-        this.discount = new Discount(date, order, totalOrderPrice);
-        printInput(totalOrderPrice);
-        printBenefit(totalOrderPrice);
+        int orderPriceTotal = order.calculatePriceTotal();
+        this.discount = new Discount(date, order, orderPriceTotal);
+        printInput(orderPriceTotal);
+        printBenefit(orderPriceTotal);
     }
 
-    private void printInput(int totalOrderPrice) {
+    private void printInput(int orderPriceTotal) {
         outputView.printTitle(date.toString());
         outputView.printOrderDetail(order.generateDetail());
-        outputView.printTotalOrderPrice(totalOrderPrice);
+        outputView.printOrderPriceTotal(orderPriceTotal);
     }
 
-    private void printBenefit(int totalOrderPrice) {
-        int totalDiscount = discount.calculateTotal();
+    private void printBenefit(int OrderPriceTotal) {
+        int discountTotal = discount.calculateTotal();
         boolean wonGiftEvent = discount.contains(GIFT_EVENT);
         boolean discountExists = discount.exists();
         printGiftEvent(wonGiftEvent);
         printDiscountDetail(discountExists);
-        printTotalDiscount(discountExists, totalDiscount);
-        printEstimatedPrice(wonGiftEvent, totalOrderPrice, totalDiscount);
-        printBadgeName(totalDiscount);
+        printDiscountTotal(discountExists, discountTotal);
+        printPriceEstimated(wonGiftEvent, OrderPriceTotal, discountTotal);
+        printBadgeName(discountTotal);
     }
 
 
@@ -71,33 +71,33 @@ public class EventPlanner {
         }
     }
 
-    private void printTotalDiscount(boolean discountExists, int totalDiscount) {
-        outputView.printTotalDiscountTitle();
+    private void printDiscountTotal(boolean discountExists, int discountTotal) {
+        outputView.printDiscountTotalTitle();
         if (discountExists) {
-            outputView.printTotalDiscount(totalDiscount);
+            outputView.printDiscountTotal(discountTotal);
         }
         if (!discountExists) {
-            outputView.printTotalDiscountIsZero();
+            outputView.printDiscountTotalIsZero();
         }
     }
 
-    private void printEstimatedPrice(boolean isGiftEvent, int totalOrderPrice, int totalDiscount) {
+    private void printPriceEstimated(boolean isGiftEvent, int OrderPriceTotal, int discountTotal) {
         if (isGiftEvent) {
-            outputView.printEstimatedPrice(totalOrderPrice - totalDiscount
+            outputView.printPriceEstimated(OrderPriceTotal - discountTotal
                     + discount.calculateDiscountAmount(GIFT_EVENT));
         }
         if (!isGiftEvent) {
-            outputView.printEstimatedPrice(totalOrderPrice - totalDiscount);
+            outputView.printPriceEstimated(OrderPriceTotal - discountTotal);
         }
     }
 
-    private void printBadgeName(int totalDiscount) {
+    private void printBadgeName(int discountTotal) {
         outputView.printEventBadgeTitle();
-        outputView.printEventBadge(getBadgeName(totalDiscount));
+        outputView.printEventBadge(getBadgeName(discountTotal));
     }
 
-    public String getBadgeName(int totalDiscount) {
-        return Badge.determineByPrice(totalDiscount).getName();
+    public String getBadgeName(int discountTotal) {
+        return Badge.determineByPrice(discountTotal).getName();
     }
 
 
