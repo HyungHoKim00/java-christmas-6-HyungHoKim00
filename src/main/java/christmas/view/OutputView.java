@@ -22,7 +22,8 @@ public class OutputView {
 
     public void printOrderDetail(Map<String, Integer> orderDetail) {
         System.out.println("<주문 메뉴>");
-        orderDetail.forEach((key, value) -> System.out.println(key + " " + value + "개"));
+        orderDetail.forEach((menuName, amount) ->
+                System.out.println(menuName + " " + amount + "개"));
         System.out.println();
     }
 
@@ -46,10 +47,8 @@ public class OutputView {
     }
 
     public void printDiscountDetail(Map<String, Integer> discountDetail) {
-        discountDetail.forEach((key, value) -> {
-            String discountAmount = MONEY_FORMAT.format(value);
-            System.out.println(key + ": -" + discountAmount + "원");
-        });
+        discountDetail.forEach((eventName, amount) ->
+                System.out.println(eventName + ": -" + MONEY_FORMAT.format(amount) + "원"));
         System.out.println();
     }
 

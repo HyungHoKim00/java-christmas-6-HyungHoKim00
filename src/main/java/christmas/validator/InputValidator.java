@@ -45,33 +45,30 @@ public class InputValidator {
             throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
         Map<Menu, Integer> order = new EnumMap<>(Menu.class);
-        menuNameAndAmounts
-                .forEach(menuNameAndAmount -> {
-                    String[] menuAndAmount = menuNameAndAmount.split("-");
-                    Menu menu = Menu.determineByName(menuAndAmount[0]);
-                    int amount = Integer.parseInt(menuAndAmount[1]);
-                    order.put(menu, amount);
-                });
+        menuNameAndAmounts.forEach(menuNameAndAmount -> {
+            String[] menuAndAmount = menuNameAndAmount.split("-");
+            Menu menu = Menu.determineByName(menuAndAmount[0]);
+            int amount = Integer.parseInt(menuAndAmount[1]);
+            order.put(menu, amount);
+        });
         return order;
     }
 
     private static boolean invalidType(List<String> menuNameAndAmounts) {
         AtomicBoolean invalidType = new AtomicBoolean(false);
-        menuNameAndAmounts
-                .forEach(menuNameAndAmount -> {
-                    String[] NameAmountPair = menuNameAndAmount.split("-");
-                    if (NameAmountPair.length != 2 || isNotPositiveInteger(NameAmountPair[1])) {
-                        invalidType.set(true);
-                    }
-                });
+        menuNameAndAmounts.forEach(menuNameAndAmount -> {
+            String[] NameAmountPair = menuNameAndAmount.split("-");
+            if (NameAmountPair.length != 2 || isNotPositiveInteger(NameAmountPair[1])) {
+                invalidType.set(true);
+            }
+        });
         return invalidType.get();
     }
 
     private static boolean duplicatedName(List<String> menuNameAndAmounts) {
         List<String> names = new ArrayList<>();
-        menuNameAndAmounts
-                .forEach(menuNameAndAmount -> names.add(menuNameAndAmount.split("-")[0]));
-
+        menuNameAndAmounts.forEach(menuNameAndAmount ->
+                names.add(menuNameAndAmount.split("-")[0]));
         return names.size() != names.stream().distinct().count();
     }
 }
