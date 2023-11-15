@@ -26,18 +26,18 @@ public class InputValidator {
             String[] nameAmountPair = validateNameAmountPair(menuNameAndAmount, divisor);
             order.put(Menu.determineByName(nameAmountPair[0]), Integer.parseInt(nameAmountPair[1]));
         });
-        if (duplicatedMenuName(order, menuNameAndAmounts)) {
+        if (duplicatedMenu(order, menuNameAndAmounts)) {
             throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
         return order;
     }
 
     private static List<String> validateMenuNameAndAmounts(String input) {
-        String orderDivisor = ",";
-        if (divisorInEdge(input, orderDivisor)) {
+        String divisor = ",";
+        if (divisorInEdge(input, divisor)) {
             throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
         }
-        return List.of(input.split(orderDivisor));
+        return List.of(input.split(divisor));
     }
 
     private static String[] validateNameAmountPair(String menuNameAndAmount, String divisor) {
@@ -64,7 +64,7 @@ public class InputValidator {
         return nameAmountPair.length != 2 || isNotPositiveInteger(nameAmountPair[1]);
     }
 
-    private static boolean duplicatedMenuName(Map<Menu, Integer> order, List<String> menuNameAndAmounts) {
+    private static boolean duplicatedMenu(Map<Menu, Integer> order, List<String> menuNameAndAmounts) {
         return order.size() != menuNameAndAmounts.size();
     }
 }
