@@ -65,6 +65,7 @@ public class DiscountTest {
                 SPECIAL_EVENT.getName(), SPECIAL_EVENT.getDiscount(),
                 GIFT_EVENT.getName(), GIFT_EVENT.getDiscount()
         );
+
         assertThat(result).isEqualTo(expected);
     }
 }

@@ -3,7 +3,6 @@ package christmas.view;
 import camp.nextstep.edu.missionutils.Console;
 import christmas.enums.Menu;
 import christmas.validator.InputValidator;
-import java.util.List;
 import java.util.Map;
 
 public class InputView {
@@ -14,7 +13,6 @@ public class InputView {
 
     public Map<Menu, Integer> readOrder() {
         String input = Console.readLine();
-        List<String> menuNameAndAmounts = InputValidator.validateOrderSentence(input);
-        return InputValidator.validateMenuNameAndAmounts(menuNameAndAmounts);
+        return InputValidator.validateOrder(input);
     }
 }

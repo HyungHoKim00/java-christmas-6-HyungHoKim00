@@ -4,71 +4,67 @@ import static christmas.enums.ErrorMessage.ERROR_DATE_INVALID;
 import static christmas.enums.ErrorMessage.ERROR_ORDER_INVALID;
 
 import christmas.enums.Menu;
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InputValidator {
     private static final String POSITIVE_INTEGER_PATTERN = "^[1-9]\\d*$";
 
-    public static int validateDate(String date) {
-        if (isNotPositiveInteger(date)) {
+    public static int validateDate(String input) {
+        if (isNotPositiveInteger(input)) {
             throw new IllegalArgumentException(ERROR_DATE_INVALID.getMessage());
         }
-        return Integer.parseInt(date);
+        return Integer.parseInt(input);
     }
+
+    public static Map<Menu, Integer> validateOrder(String input) {
+        List<String> menuNameAndAmounts = validateMenuNameAndAmounts(input);
+        String divisor = "-";
+        Map<Menu, Integer> order = new EnumMap<>(Menu.class);
+        menuNameAndAmounts.forEach(menuNameAndAmount -> {
+            String[] nameAmountPair = validateNameAmountPair(menuNameAndAmount, divisor);
+            order.put(Menu.determineByName(nameAmountPair[0]), Integer.parseInt(nameAmountPair[1]));
+        });
+        if (duplicatedMenuName(order, menuNameAndAmounts)) {
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
+        }
+        return order;
+    }
+
+    private static List<String> validateMenuNameAndAmounts(String input) {
+        String orderDivisor = ",";
+        if (divisorInEdge(input, orderDivisor)) {
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
+        }
+        return List.of(input.split(orderDivisor));
+    }
+
+    private static String[] validateNameAmountPair(String menuNameAndAmount, String divisor) {
+        if (divisorInEdge(menuNameAndAmount, divisor)) {
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
+        }
+        String[] nameAmountPair = menuNameAndAmount.split(divisor);
+        if (invalidType(nameAmountPair)) {
+            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
+        }
+        return nameAmountPair;
+    }
+
 
     private static boolean isNotPositiveInteger(String input) {
         return !input.matches(POSITIVE_INTEGER_PATTERN);
     }
 
-
-    public static List<String> validateOrderSentence(String input) {
-        if (commaDoubledOrInEdge(input)) {
-            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
-        }
-        return List.of(input.split(","));
+    private static boolean divisorInEdge(String input, String divisor) {
+        return input.startsWith(divisor) || input.endsWith(divisor);
     }
 
-    private static boolean commaDoubledOrInEdge(String input) {
-        return input.contains(",,") || input.startsWith(",") || input.endsWith(",");
+    private static boolean invalidType(String[] nameAmountPair) {
+        return nameAmountPair.length != 2 || isNotPositiveInteger(nameAmountPair[1]);
     }
 
-
-    public static Map<Menu, Integer> validateMenuNameAndAmounts(List<String> menuNameAndAmounts) {
-        if (invalidType(menuNameAndAmounts)) {
-            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
-        }
-        if (duplicatedName(menuNameAndAmounts)) {
-            throw new IllegalArgumentException(ERROR_ORDER_INVALID.getMessage());
-        }
-        Map<Menu, Integer> order = new EnumMap<>(Menu.class);
-        menuNameAndAmounts.forEach(menuNameAndAmount -> {
-            String[] menuAndAmount = menuNameAndAmount.split("-");
-            Menu menu = Menu.determineByName(menuAndAmount[0]);
-            int amount = Integer.parseInt(menuAndAmount[1]);
-            order.put(menu, amount);
-        });
-        return order;
-    }
-
-    private static boolean invalidType(List<String> menuNameAndAmounts) {
-        AtomicBoolean invalidType = new AtomicBoolean(false);
-        menuNameAndAmounts.forEach(menuNameAndAmount -> {
-            String[] NameAmountPair = menuNameAndAmount.split("-");
-            if (NameAmountPair.length != 2 || isNotPositiveInteger(NameAmountPair[1])) {
-                invalidType.set(true);
-            }
-        });
-        return invalidType.get();
-    }
-
-    private static boolean duplicatedName(List<String> menuNameAndAmounts) {
-        List<String> names = new ArrayList<>();
-        menuNameAndAmounts.forEach(menuNameAndAmount ->
-                names.add(menuNameAndAmount.split("-")[0]));
-        return names.size() != names.stream().distinct().count();
+    private static boolean duplicatedMenuName(Map<Menu, Integer> order, List<String> menuNameAndAmounts) {
+        return order.size() != menuNameAndAmounts.size();
     }
 }
