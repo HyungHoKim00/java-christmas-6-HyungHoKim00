@@ -1,4 +1,4 @@
-package christmas;
+package christmas.model;
 
 import static christmas.enums.Event.D_DAY_EVENT;
 import static christmas.enums.Event.GIFT_EVENT;
@@ -10,9 +10,6 @@ import static christmas.enums.Menu.T_BONE_STEAK;
 import static christmas.enums.Menu.ZERO_COKE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.model.Date;
-import christmas.model.Discount;
-import christmas.model.Order;
 import java.util.EnumMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +43,7 @@ public class DiscountTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @DisplayName("증정 이벤트 당첨 여부 선정")
+    @DisplayName("이벤트 대상인지 여부 반환")
     @Test
     void wonGiftEvent() {
         boolean result = VALID_DISCOUNT.contains(GIFT_EVENT);

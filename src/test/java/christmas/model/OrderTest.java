@@ -1,4 +1,4 @@
-package christmas;
+package christmas.model;
 
 import static christmas.enums.Menu.BBQ_RIBS;
 import static christmas.enums.Menu.CHOCOLATE_CAKE;
@@ -11,7 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import christmas.enums.Menu;
-import christmas.model.Order;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Stream;

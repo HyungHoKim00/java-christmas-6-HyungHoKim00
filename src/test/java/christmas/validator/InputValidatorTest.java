@@ -1,8 +1,7 @@
-package christmas;
+package christmas.validator;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import christmas.validator.InputValidator;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,8 +27,9 @@ public class InputValidatorTest {
 
     static Stream<Arguments> invalidInputOrder() {
         return Stream.of(
-                Arguments.of("티본스테이크-2,,타파스-3", "주문 문장 판별"),
+                Arguments.of(",티본스테이크-2,타파스-3", "주문 문장 판별"),
                 Arguments.of("티본스테이크-2-", "주문 형식 판별"),
+                Arguments.of("티본스테이크-a", "주문 형식 판별"),
                 Arguments.of("타파스-2,타파스-3", "메뉴 이름 중복")
         );
     }

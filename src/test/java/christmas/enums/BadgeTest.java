@@ -1,11 +1,10 @@
-package christmas;
+package christmas.enums;
 
 import static christmas.enums.Badge.SANTA;
 import static christmas.enums.Badge.STAR;
 import static christmas.enums.Badge.TREE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.enums.Badge;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
